@@ -1,0 +1,725 @@
+type: vertex-training
+version: v1
+
+details:
+  email:
+    - SamsMDdatascience@email.wal-mart.com
+  slack: "mle-gcp-ml-deploy"
+
+deploy:
+  approval:
+    group:
+      gcp-pricing-np
+
+envs:
+  dev:
+    VPC_NETWORK: "projects/12856960411/global/networks/vpcnet-private-svc-access-usc1"
+    # Project ID for GCP
+    PROJECT_ID: "wmt-mlp-p-price-npd-pricing"
+    # GCP Service account
+    SERVICE_ACCOUNT: "svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com"
+    # Region in which pipeline runs for provision gcp
+    REGION: "us-central1"
+    # Docker images pathes and versions in the container which will run each KF component of the pipeline.
+    # The images below are for dotcom use only. Inclub pipeline should use "latest" version.
+    # After the feature name change for inclub is done, the inclub and dotcom pipeline can share the same images.
+    BASE_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest"
+    MLFLOW_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-mlflow-dev:latest"
+    CICD_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-cicd-dev:latest"
+
+    # Run the pipeline when deployment is triggered for each env; model pipeline, json format, and the location to store
+    RUN_PIPELINE: False
+    ########### DUMMY PIPELINE NAME AND JSON ###########
+    PIPELINE_NAME: "inclub-md-pipeline-dev"
+    PIPELINE_JSON: "inclub-md-pipeline-dev.json"
+    ####################################################
+    PIPELINE_ROOT: "gs://md-training-pipeline-bucket-nonprod"
+    GCS_URI: "gs://md-training-pipeline-bucket-nonprod/"
+    DATA_STORAGE_GCS_URI: "gs://md-training-data-storage-nonprod"
+
+    inclub:
+      RUN_PIPELINE: True
+      PIPELINE_NAME: "inclub-md-pipeline-dev"
+      PIPELINE_JSON: "inclub-md-pipeline-dev.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_params_dev"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_model_output_dev"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_training_pipeline_dev.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev"
+
+      LATEST_MD_METRICS_PATH_EVAL_LOGS: 'gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev_eval_logs'
+      LATEST_MD_METRICS_PATH_EVAL_MANUAL: 'gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev_eval_manual'
+
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_model_version_dev"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_config_hashmap_dev"
+
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "inclub_markdown_dev"
+      MODEL_REGISTRY_NAME: "inclub_markdown_dev"
+      MLFLOW_EXP_NAME: "inclub_markdown_dev"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "wmt-mlp-p-price-npd-pricing.markdown_vn57vog.inclub_train_features_full"
+      VAL_TABLE_NAME: "wmt-mlp-p-price-npd-pricing.markdown_vn57vog.inclub_val_features_full"
+      TEST_TABLE_NAME: "wmt-mlp-p-price-npd-pricing.markdown_vn57vog.inclub_test_features_full"
+      LOGS_EVAL_TABLE_NAME: "wmt-mlp-p-price-npd-pricing.markdown_vn57vog.DS_logs_eval_0"
+      MANUAL_EVAL_TABLE_NAME: "wmt-mlp-p-price-npd-pricing.markdown_vn57vog.DS_manual_eval_0"
+      
+      #Elasticity table name
+      ELASTICITY_OUTPUT_PATH: "wmt-mlp-p-price-npd-pricing.markdown.elasticity_ses13"
+
+      # Eval Output table names - Logs
+      EVAL_PREDICTION_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_pred_logs_ses13"
+      EVAL_CAT_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_cat_results_logs_ses13"
+      EVAL_NUM_WEEK_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_num_week_results_logs_ses13"
+      EVAL_OVERALL_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_overall_results_logs_ses13"  
+
+      # Eval Output table names - Manual
+      EVAL_PREDICTION_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_pred_manual_ses13"
+      EVAL_CAT_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_cat_results_manual_ses13"
+      EVAL_NUM_WEEK_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_num_week_results_manual_ses13"
+      EVAL_OVERALL_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_overall_results_manual_ses13"
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'median_price_6_month_last_amt'
+        - 'price_1_week_back_median_price_6_month_last_nbr'
+        - 'price_2_week_back_median_price_6_month_last_nbr'
+        - 'price_3_week_back_median_price_6_month_last_nbr'
+        - 'price_4_week_back_median_price_6_month_last_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'day_on_shelf_cnt'
+        - 'num_weeks'
+        - 'unit_sold_1_week_back_cnt'
+        - 'unit_sold_2_week_back_cnt'
+        - 'unit_sold_3_week_back_cnt'
+        - 'unit_sold_4_week_back_cnt'
+        - 'month'
+        - 'week'
+        - 'avg_unit_sold_subcategory_52_week_back_cnt'
+        - 'change_unit_sold_subcategory_same_week_1_year_back_cnt'
+        - 'avg_unit_sold_dept_52_week_back_cnt'
+        - 'avg_unit_sold_52_week_back_cnt'
+        - 'change_unit_sold_1_2_week_back_cnt'
+        - 'change_unit_sold_2_3_week_back_cnt'
+        - 'change_unit_sold_3_4_week_back_cnt'
+        - 'subclass_unit_sold_same_week_1_year_back_nbr'
+        - 'week_inventory_expected_to_last_cnt'
+      ENCODE_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0
+      ROUNDS: 20
+      MAX_EVALS: 50
+      # Model Hyper-Parameters
+      TRAIN_PARAMS : {'n_estimators': 600,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.6,
+                      'subsample': 0.8,
+                      'lambda': 5.1,
+                      'n_jobs': 100,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+    dotcom:
+      RUN_PIPELINE: True
+      PIPELINE_NAME: "dotcom-md-pipeline-dev"
+      PIPELINE_JSON: "dotcom-md-pipeline-dev.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_params_dev"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_model_output_dev"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_training_pipeline_dev.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_metrics_dev"
+      LATEST_MD_METRICS_PATH_EVAL_LOGS: 'gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_metrics_dev_eval_logs'
+      LATEST_MD_METRICS_PATH_EVAL_MANUAL: 'gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_metrics_dev_eval_manual'
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_model_version_dev"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_config_hashmap_dev"
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "dotcom_markdown_dev"
+      MODEL_REGISTRY_NAME: "dotcom_markdown_dev"
+      MLFLOW_EXP_NAME: "dotcom_markdown_dev"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_train_features"
+      VAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_val_features"
+      TEST_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_test_features"
+      LOGS_EVAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_DS_logs_eval"
+      MANUAL_EVAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_DS_manual_eval"
+
+       # Eval Output table names - Logs
+      EVAL_PREDICTION_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_pred_logs"
+      EVAL_CAT_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_cat_results_logs"
+      EVAL_OVERALL_OUTPUT_PATH_LOGS: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_overall_results_logs"
+
+      # Eval Output table names - Manual
+      EVAL_PREDICTION_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_pred_manual"
+      EVAL_CAT_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_cat_results_manual"
+      EVAL_OVERALL_OUTPUT_PATH_MANUAL: "wmt-mlp-p-price-npd-pricing.markdown.dotcom_eval_overall_results_manual"
+
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'category_nbr'
+        - 'sub_category_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'num_weeks'
+        - 'units_sold_1_week_back_cnt'
+        - 'units_sold_2_week_back_cnt'
+        - 'units_sold_3_week_back_cnt'
+        - 'units_sold_4_week_back_cnt'
+        - 'app_delivery_add2cart_click_1_week_back_cnt'
+        - 'app_delivery_add2cart_click_3_week_back_cnt'
+        - 'app_delivery_add2cart_click_4_week_back_cnt'
+        - 'app_pickup_add2cart_click_2_week_back_cnt'
+        - 'app_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_4_week_back_cnt'
+        - 'web_pickup_add2cart_member_1_week_back_cnt'
+        - 'web_shipping_add2cart_member_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_1_week_back_cnt'
+        - 'web_delivery_add2cart_click_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_2_week_back_cnt'
+        - 'web_shipping_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_4_week_back_cnt'
+      ENCODE_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0.005
+      ROUNDS: 10
+      MAX_EVALS: 100
+      TRAIN_PARAMS : {'n_estimators': 1000,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.9,
+                      'subsample': 0.7,
+                      'lambda': 8.1,
+                      'n_jobs': 12,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+
+  stage:
+    VPC_NETWORK: "projects/12856960411/global/networks/vpcnet-private-svc-access-usc1"
+    # Project ID for GCP
+    PROJECT_ID: "wmt-mlp-p-price-npd-pricing"
+    # GCP Service account
+    SERVICE_ACCOUNT: "svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com"
+    # Region in which pipeline runs for provision gcp
+    REGION: "us-central1"
+    # Docker images pathes and versions in the container which will run each KF component of the pipeline
+    BASE_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-stage:latest"
+    MLFLOW_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-mlflow-stage:latest"
+    CICD_IMAGE: "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-cicd-stage:latest"
+
+    # Run the pipeline when deployment is triggered for each env; model pipeline, json format, and the location to store
+    RUN_PIPELINE: False
+    PIPELINE_NAME: "inclub-md-pipeline-stage"
+    PIPELINE_JSON: "inclub-md-pipeline-stage.json"
+    PIPELINE_ROOT: "gs://md-training-pipeline-bucket-nonprod"
+    GCS_URI: "gs://md-training-pipeline-bucket-nonprod/"
+    DATA_STORAGE_GCS_URI: "gs://md-training-data-storage-nonprod"
+
+    inclub:
+      RUN_PIPELINE: True
+      PIPELINE_NAME: "inclub-md-pipeline-stage"
+      PIPELINE_JSON: "inclub-md-pipeline-stage.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_params_stage"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_model_output_stage"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_training_pipeline_stage.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_stage"
+      LATEST_MD_METRICS_PATH_EVAL: 'gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_stage_eval'
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_model_version_stage"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-nonprod/inclub/latest_config_hashmap_stage"
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "inclub_markdown_stage"
+      MODEL_REGISTRY_NAME: "inclub_markdown_stage"
+      MLFLOW_EXP_NAME: "inclub_markdown_stage"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "dev-sams-ds-featurestore.markdown.inclub_train_features"
+      VAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.inclub_val_features"
+      TEST_TABLE_NAME: "dev-sams-ds-featurestore.markdown.inclub_test_features"
+      EVAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.inclub_eval_features"
+
+      # Eval Output table names
+      EVAL_PREDICTION_OUTPUT_PATH: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_pred"
+      EVAL_CAT_OUTPUT_PATH: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_cat_results"
+      EVAL_OVERALL_OUTPUT_PATH: "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_overall_results"  
+      
+      #Elasticity table name
+      ELASTICITY_OUTPUT_PATH: "wmt-mlp-p-price-npd-pricing.markdown.elasticity"
+
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'median_price_6_month_last_amt'
+        - 'price_1_week_back_median_price_6_month_last_nbr'
+        - 'price_2_week_back_median_price_6_month_last_nbr'
+        - 'price_3_week_back_median_price_6_month_last_nbr'
+        - 'price_4_week_back_median_price_6_month_last_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'week_inventory_expected_to_last_cnt'
+        - 'day_on_shelf_cnt'
+        - 'num_weeks'
+        - 'unit_sold_1_week_back_cnt'
+        - 'unit_sold_2_week_back_cnt'
+        - 'unit_sold_3_week_back_cnt'
+        - 'unit_sold_4_week_back_cnt'
+        - 'month'
+        - 'week'
+        - 'avg_unit_sold_subcategory_52_week_back_cnt'
+        - 'change_unit_sold_subcategory_same_week_1_year_back_cnt'
+        - 'avg_unit_sold_dept_52_week_back_cnt'
+        - 'avg_unit_sold_52_week_back_cnt'
+        - 'change_unit_sold_1_2_week_back_cnt'
+        - 'change_unit_sold_2_3_week_back_cnt'
+        - 'change_unit_sold_3_4_week_back_cnt'
+        - 'subclass_unit_sold_same_week_1_year_back_nbr'
+      ENCODE_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0
+      ROUNDS: 20
+      MAX_EVALS: 50
+      # Model Hyper-Parameters
+      TRAIN_PARAMS: { 'n_estimators': 600,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.6,
+                      'subsample': 0.8,
+                      'lambda': 5.1,
+                      'n_jobs': 12,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+
+    dotcom:
+      RUN_PIPELINE: True
+      PIPELINE_NAME: "dotcom-md-pipeline-stage"
+      PIPELINE_JSON: "dotcom-md-pipeline-stage.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_params_stage"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_model_output_stage"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_training_pipeline_stage.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_metrics_stage"
+      LATEST_MD_METRICS_PATH_EVAL: 'gs://md-training-pipeline-bucket-nonprod/dotcom/latest_markdown_metrics_stage_eval'
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_model_version_stage"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-nonprod/dotcom/latest_config_hashmap_stage"
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "dotcom_markdown_stage"
+      MODEL_REGISTRY_NAME: "dotcom_markdown_stage"
+      MLFLOW_EXP_NAME: "dotcom_markdown_stage"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_train_features"
+      VAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_val_features"
+      TEST_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_test_features"
+      EVAL_TABLE_NAME: "dev-sams-ds-featurestore.markdown.dotcom_eval_features"
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'category_nbr'
+        - 'sub_category_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'num_weeks'
+        - 'units_sold_1_week_back_cnt'
+        - 'units_sold_2_week_back_cnt'
+        - 'units_sold_3_week_back_cnt'
+        - 'units_sold_4_week_back_cnt'
+        - 'app_delivery_add2cart_click_1_week_back_cnt'
+        - 'app_delivery_add2cart_click_3_week_back_cnt'
+        - 'app_delivery_add2cart_click_4_week_back_cnt'
+        - 'app_pickup_add2cart_click_2_week_back_cnt'
+        - 'app_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_4_week_back_cnt'
+        - 'web_pickup_add2cart_member_1_week_back_cnt'
+        - 'web_shipping_add2cart_member_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_1_week_back_cnt'
+        - 'web_delivery_add2cart_click_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_2_week_back_cnt'
+        - 'web_shipping_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_4_week_back_cnt'
+      ENCODE_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0.005
+      ROUNDS: 10
+      MAX_EVALS: 100
+      TRAIN_PARAMS: { 'n_estimators': 1000,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.9,
+                      'subsample': 0.7,
+                      'lambda': 8.1,
+                      'n_jobs': 12,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+
+  prod:
+    VPC_NETWORK: "projects/12856960411/global/networks/vpcnet-private-svc-access-usc1"
+    # Project ID for GCP
+    PROJECT_ID: "gcp-markdown-price-prod"
+    # GCP Service account
+    SERVICE_ACCOUNT: "svc-markdown-price-prod@gcp-markdown-price-prod.iam.gserviceaccount.com"
+    # Region in which pipeline runs for provision gcp
+    REGION: "us-central1"
+    # Docker images pathes and versions in the container which will run each KF component of the pipeline
+    BASE_IMAGE: "gcr.io/gcp-markdown-price-prod/markdown-training-pipeline-prod:latest"
+    MLFLOW_IMAGE: "gcr.io/gcp-markdown-price-prod/markdown-mlflow-prod:latest"
+    CICD_IMAGE: "gcr.io/gcp-markdown-price-prod/markdown-cicd-prod:latest"
+
+    # Run the pipeline when deployment is triggered for each env; model pipeline, json format, and the location to store
+    RUN_PIPELINE: False
+    #Dummy pipeline name and json
+    PIPELINE_NAME: "dotcom-md-pipeline-prod"
+    PIPELINE_JSON: "dotcom-md-pipeline-prod.json"
+    PIPELINE_ROOT: "gs://md-training-pipeline-bucket-prod"
+    GCS_URI: "gs://md-training-pipeline-bucket-prod/"
+    DATA_STORAGE_GCS_URI: "gs://md-training-data-storage-prod"
+    inclub:
+      RUN_PIPELINE: False
+      PIPELINE_NAME: "inclub-md-pipeline-prod"
+      PIPELINE_JSON: "inclub-md-pipeline-prod.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_markdown_params_prod"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_markdown_model_output_prod"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_training_pipeline_prod.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_markdown_metrics_prod"
+      LATEST_MD_METRICS_PATH_EVAL: 'gs://md-training-pipeline-bucket-prod/inclub/latest_markdown_metrics_prod_eval'
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_model_version_prod"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-prod/inclub/latest_config_hashmap_prod"
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "inclub_markdown_prod"
+      MODEL_REGISTRY_NAME: "inclub_markdown_prod"
+      MLFLOW_EXP_NAME: "inclub_markdown_prod"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "prod-sams-ds-featurestore.markdown.inclub_train_features"
+      VAL_TABLE_NAME: "prod-sams-ds-featurestore.markdown.inclub_val_features"
+      TEST_TABLE_NAME: "prod-sams-ds-featurestore.markdown.inclub_test_features"
+      EVAL_TABLE_NAME: "prod-sams-ds-featurestore.markdown.inclub_eval_features"
+
+      # Eval Output table names
+      EVAL_PREDICTION_OUTPUT_PATH: "gcp-markdown-price-prod.markdown.inclub_eval_pred"
+      EVAL_CAT_OUTPUT_PATH: "gcp-markdown-price-prod.markdown.inclub_eval_cat_results"
+      EVAL_OVERALL_OUTPUT_PATH: "gcp-markdown-price-prod.markdown.inclub_eval_overall_results"  
+      
+     #Elasticity table name
+      ELASTICITY_OUTPUT_PATH: "gcp-markdown-price-prod.markdown.elasticity"
+
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'median_price_6_month_last_amt'
+        - 'price_1_week_back_median_price_6_month_last_nbr'
+        - 'price_2_week_back_median_price_6_month_last_nbr'
+        - 'price_3_week_back_median_price_6_month_last_nbr'
+        - 'price_4_week_back_median_price_6_month_last_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'week_inventory_expected_to_last_cnt'
+        - 'day_on_shelf_cnt'
+        - 'num_weeks'
+        - 'unit_sold_1_week_back_cnt'
+        - 'unit_sold_2_week_back_cnt'
+        - 'unit_sold_3_week_back_cnt'
+        - 'unit_sold_4_week_back_cnt'
+        - 'month'
+        - 'week'
+        - 'avg_unit_sold_subcategory_52_week_back_cnt'
+        - 'change_unit_sold_subcategory_same_week_1_year_back_cnt'
+        - 'avg_unit_sold_dept_52_week_back_cnt'
+        - 'avg_unit_sold_52_week_back_cnt'
+        - 'change_unit_sold_1_2_week_back_cnt'
+        - 'change_unit_sold_2_3_week_back_cnt'
+        - 'change_unit_sold_3_4_week_back_cnt'
+        - 'subclass_unit_sold_same_week_1_year_back_nbr'
+      ENCODE_FEATURES:
+        - 'club_nbr'
+        - 'department_nbr'
+        - 'subclass_nbr'
+        - 'week'
+        - 'month'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0
+      ROUNDS: 20
+      MAX_EVALS: 50
+      # Model Hyper-Parameters
+      TRAIN_PARAMS: { 'n_estimators': 600,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.6,
+                      'subsample': 0.8,
+                      'lambda': 5.1,
+                      'n_jobs': 12,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+
+    dotcom:
+      RUN_PIPELINE: True
+      PIPELINE_NAME: "dotcom-md-pipeline-prod"
+      PIPELINE_JSON: "dotcom-md-pipeline-prod.json"
+      LATEST_MD_PARAMS_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_markdown_params_prod"
+      LATEST_MD_MODEL_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_markdown_model_output_prod"
+      LATEST_PIPELINE_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_training_pipeline_prod.json"
+      LATEST_MD_METRICS_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_markdown_metrics_prod"
+      LATEST_MD_METRICS_PATH_EVAL: 'gs://md-training-pipeline-bucket-prod/dotcom/latest_markdown_metrics_prod_eval'
+      LATEST_MODEL_VERSION_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_model_version_prod"
+      LATEST_CONFIG_HASHMAP_PATH: "gs://md-training-pipeline-bucket-prod/dotcom/latest_config_hashmap_prod"
+      # MLFlow Model Registry name and experiment name
+      MARKDOWN_MODEL_NAME: "dotcom_markdown_prod"
+      MODEL_REGISTRY_NAME: "dotcom_markdown_prod"
+      MLFLOW_EXP_NAME: "dotcom_markdown_prod"
+      # Training table name, the lastest version of Club Threshold model with its pipeline, No Sales with its pipeline.
+      TRAIN_TABLE_NAME: "prod-sams-ds-featurestore.markdown.dotcom_train_features"
+      VAL_TABLE_NAME: "prod-sams-ds-featurestore.markdown.dotcom_val_features"
+      TEST_TABLE_NAME: "prod-sams-ds-featurestore.markdown.dotcom_test_features"
+      EVAL_TABLE_NAME: "prod-sams-ds-featurestore.markdown.dotcom_eval_features"
+      # Model Parameters
+      MODE: "test"
+      # "auto" means hyper-parameter tuning. "manual" will use the "TRAIN_PARAMS" defined below.
+      PARAM_TUNING: "manual"
+      MODEL_VERBOSE: True
+      DYNAMIC_CONFIG: True
+      DATA_FRACTION: "0.1"
+      PRODUCTION_RUN: True
+      RUN_FREQUENCY: "monthly"
+      RUN_MLFLOW_EXP: True
+      CATEGORY_UNIVERSE: "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+      CATEGORY_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      CONSTRAINED_FEATURES:
+        - 'num_weeks'
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+      COVARIATES:
+        - 'discount_1_week_next_nbr'
+        - 'discount_2_week_next_nbr'
+        - 'discount_3_week_next_nbr'
+        - 'discount_4_week_next_nbr'
+        - 'discount_5_week_next_nbr'
+        - 'discount_6_week_next_nbr'
+        - 'discount_7_week_next_nbr'
+        - 'discount_8_week_next_nbr'
+        - 'category_nbr'
+        - 'sub_category_nbr'
+        - 'avg_weekly_unit_sold_1_month_back_cnt'
+        - 'num_weeks'
+        - 'units_sold_1_week_back_cnt'
+        - 'units_sold_2_week_back_cnt'
+        - 'units_sold_3_week_back_cnt'
+        - 'units_sold_4_week_back_cnt'
+        - 'app_delivery_add2cart_click_1_week_back_cnt'
+        - 'app_delivery_add2cart_click_3_week_back_cnt'
+        - 'app_delivery_add2cart_click_4_week_back_cnt'
+        - 'app_pickup_add2cart_click_2_week_back_cnt'
+        - 'app_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_1_week_back_cnt'
+        - 'web_delivery_add2cart_member_4_week_back_cnt'
+        - 'web_pickup_add2cart_member_1_week_back_cnt'
+        - 'web_shipping_add2cart_member_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_1_week_back_cnt'
+        - 'web_delivery_add2cart_click_2_week_back_cnt'
+        - 'web_delivery_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_2_week_back_cnt'
+        - 'web_shipping_add2cart_click_3_week_back_cnt'
+        - 'web_shipping_add2cart_click_4_week_back_cnt'
+      ENCODE_FEATURES:
+        - 'category_nbr'
+        - 'sub_category_nbr'
+      RESPONSE:
+        - 'target'
+      TOLERANCE: 0.005
+      ROUNDS: 10
+      MAX_EVALS: 100
+      TRAIN_PARAMS: { 'n_estimators': 1000,
+                      'max_depth': 20,
+                      'colsample_bytree': 0.9,
+                      'subsample': 0.7,
+                      'lambda': 8.1,
+                      'n_jobs': 12,
+                      'learning_rate': 0.04,
+                      'eval_metric': "mean_absolute_error"  # change to the sklearn object
+      }
+
