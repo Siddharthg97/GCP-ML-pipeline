@@ -7,6 +7,8 @@
 5) ML flow image
 6) Pipeline_utils
 7) Decryption
-8) 
+
+
+To create ML flow pipeline we need containerized applications conatining -python configurations, 
 
    
