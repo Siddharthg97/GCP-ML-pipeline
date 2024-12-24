@@ -1,0 +1,23 @@
+Get or Create the Logger:
+
+#logging.getLogger('py4j'): Creates or retrieves a logger named 'py4j'.
+#Set Logging Level:
+
+logger.setLevel(logging.INFO): Configures the logger to handle messages at the INFO level and above (INFO, WARNING, ERROR, CRITICAL).
+Create a Console Handler:
+
+ch = logging.StreamHandler(): Creates a handler that outputs log messages to the console.
+ch.setLevel(logging.INFO): Sets the console handler to only process messages at the INFO level or above.
+Create a Formatter:
+
+logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'): Specifies the format for log messages, including:
+%(asctime)s: Timestamp of the log entry.
+%(name)s: Name of the logger ('py4j' in this case).
+%(levelname)s: Log level (INFO, ERROR, etc.).
+%(message)s: The actual log message.
+Attach Formatter to the Handler:
+
+ch.setFormatter(formatter): Adds the formatter to the console handler.
+Add Handler to the Logger:
+
+logger.addHandler(ch): Adds the console handler to the logger, enabling the formatted log messages to be displayed on the console.
