@@ -1,23 +1,31 @@
-Get or Create the Logger:
+1)Get or Create the Logger:
 
-#logging.getLogger('py4j'): Creates or retrieves a logger named 'py4j'.
-#Set Logging Level:
+logging.getLogger('py4j'): Creates or retrieves a logger named 'py4j'.
+2)Set Logging Level:
+  logger.setLevel(logging.INFO): Configures the logger to handle messages at the INFO level and above (INFO, WARNING, ERROR, CRITICAL).
 
-logger.setLevel(logging.INFO): Configures the logger to handle messages at the INFO level and above (INFO, WARNING, ERROR, CRITICAL).
-Create a Console Handler:
+3)Create a Console Handler:
+  ch = logging.StreamHandler(): Creates a handler that outputs log messages to the console.
+  ch.setLevel(logging.INFO): Sets the console handler to only process messages at the INFO level or above.
 
-ch = logging.StreamHandler(): Creates a handler that outputs log messages to the console.
-ch.setLevel(logging.INFO): Sets the console handler to only process messages at the INFO level or above.
-Create a Formatter:
+4)Create a Formatter:
+  logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'): Specifies the format for log messages, including:
+  %(asctime)s: Timestamp of the log entry.
+  %(name)s: Name of the logger ('py4j' in this case).
+  %(levelname)s: Log level (INFO, ERROR, etc.).
+  %(message)s: The actual log message.
+  Attach Formatter to the Handler:
 
-logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'): Specifies the format for log messages, including:
-%(asctime)s: Timestamp of the log entry.
-%(name)s: Name of the logger ('py4j' in this case).
-%(levelname)s: Log level (INFO, ERROR, etc.).
-%(message)s: The actual log message.
-Attach Formatter to the Handler:
+5)ch.setFormatter(formatter): Adds the formatter to the console handler.
+6)Add Handler to the Logger:
+  logger.addHandler(ch): Adds the console handler to the logger, enabling the formatted log messages to be displayed on the console.
 
-ch.setFormatter(formatter): Adds the formatter to the console handler.
-Add Handler to the Logger:
+Input code
+  logger.info("This is an info message.")
+  logger.warning("This is a warning message.")
+  logger.error("This is an error message.")
 
-logger.addHandler(ch): Adds the console handler to the logger, enabling the formatted log messages to be displayed on the console.
+Output code
+2024-12-24 12:00:00 - py4j - INFO - This is an info message.
+2024-12-24 12:00:01 - py4j - WARNING - This is a warning message.
+2024-12-24 12:00:02 - py4j - ERROR - This is an error message.
