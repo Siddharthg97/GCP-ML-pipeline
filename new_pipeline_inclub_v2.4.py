@@ -33,7 +33,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-
+# step -1 defining the object of argument parser to avoid hard coding variables everywhere throughout the code
 try:
     args = pipeline_utils.MarkdownArgs().get_args()
 except:
@@ -47,7 +47,7 @@ except:
         "--is_prod", False,
     ]
     args = parser.parse_args(sys.args)
-
+# step -2 Extracting all the variables from settings.yml file
 PARAMS = pipeline_utils.YamlImport("settings.yml").yaml_import()
 
 # Env flag for indentifying what env is used. valid values are: "dev" "stage" "prod"
