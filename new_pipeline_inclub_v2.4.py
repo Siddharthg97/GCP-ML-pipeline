@@ -47,7 +47,8 @@ except:
         "--is_prod", False,
     ]
     args = parser.parse_args(sys.args)
-# step -2 Extracting all the variables from settings.yml file
+# step-2 Extracting all the variables/parameters from settings.yml file specifically for - model condition / run configuration parameters , images,\
+#training pipeline parameters  ,train & output data parameters,  training parameters & hyper patameter tuning
 PARAMS = pipeline_utils.YamlImport("settings.yml").yaml_import()
 
 # Env flag for indentifying what env is used. valid values are: "dev" "stage" "prod"
@@ -208,7 +209,7 @@ print(f"""
 # -
 
 ###########################
-# Model Versioning Feedback
+# Model Versioning Feedback - we try to pick last model version from mlflow with same experiment name
 # ##########################
 @component(base_image=MLFLOW_IMAGE)
 def model_versioning_feedback(
