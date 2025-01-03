@@ -1,4 +1,22 @@
-1)Get or Create the Logger:
+1) System arguments
+if __name__ == '__main__':
+    args = json.loads(sys.argv[1]) 
+    project_id = args["GCP_PROJECT"] 
+    bq_dataset = args["MATERIALIZATION_DATASET"] 
+    ds_temp_bucket = args["GCS_TEMP_BUCKET"]
+    source_dataset = args["FS_SOURCE_DATASET"]
+
+
+
+
+
+
+
+
+
+
+
+2)Get or Create the Logger:
 
 logging.getLogger('py4j'): Creates or retrieves a logger named 'py4j'.
 2)Set Logging Level:
