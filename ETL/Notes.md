@@ -25,4 +25,8 @@ NOTE : We can have several composer environment created within a project in loca
 3) Once composer environment is created we can see that against this environment we have folders like Dag, airflow webserver
 being created. Now the dag folder stores the gcs bucket in which python script is present containing the script to be executed  
 Airflow webserver is the is the UI in which all dags are present irrespective of whether active , paused or failed etc.
+NOTE : We would need to define the operator to build a DAG. These can be bash operator , python operator etc.
 
+
+Within composer environment hyper link we have option of PYPI packages where we would need to define the package & version 
+to be installed to run dags.
