@@ -1,0 +1,23 @@
+FROM docker.ci.artifacts.walmart.com/devtools-testing-docker/python-3.9 as python
+
+RUN pwd
+
+RUN apt-get clean  
+RUN rm -rf /var/lib/apt/lists/*  
+RUN rm -rf /var/lib/apt/lists/partial/*  
+RUN rm -rf /var/cache/apt/archives/*
+
+RUN apt-get update && apt-get install gcc libffi-dev -y
+RUN pip3 install --upgrade pip
+
+# Copy the list of the required packages.
+COPY ./base_image/base_image_requirements.txt ./requirements.txt
+
+# Install the list of the required packages.
+RUN pip3 install -r requirements.txt
+
+# Copy the model function file 
+COPY ./model_utils/md_utils.py ./app/md_utils.py
+
+WORKDIR ./app
+RUN ls -l ./

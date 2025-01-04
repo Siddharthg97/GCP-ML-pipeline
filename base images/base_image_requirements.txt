@@ -1,0 +1,21 @@
+numpy==1.23.5
+optuna==3.1.1
+pandas==2.0.3
+xgboost==2.0.2
+plotly==5.5.0
+plotnine==0.12.2
+category-encoders==2.6.0
+scikit-learn==1.1.1
+joblib==1.1.1
+google-cloud-storage==1.44.0
+google-cloud-aiplatform==1.13.0
+google-cloud-bigquery==2.34.4
+kfp==1.8.15
+fsspec==2022.11.0
+gcsfs==2022.11.0
+pyarrow==14.0.1
+seaborn==0.12.2
+fastparquet==2022.11.0
+urllib3==1.26.15
+pillow>=10.2.0 # not directly required, pinned by Snyk to avoid a vulnerability
+aiohttp>=3.9.2 # not directly required, pinned by Snyk to avoid a vulnerability
