@@ -1,23 +1,67 @@
-FROM docker.ci.artifacts.walmart.com/devtools-testing-docker/python-3.9 as python
+1)FROM docker.ci.artifacts.walmart.com/devtools-testing-docker/python-3.9 as python - installing python from source of python version 
 
-RUN pwd
+2)RUN pwd -setting the working directory
 
-RUN apt-get clean  
-RUN rm -rf /var/lib/apt/lists/*  
-RUN rm -rf /var/lib/apt/lists/partial/*  
-RUN rm -rf /var/cache/apt/archives/*
+3)RUN apt-get clean   - working with docker file 
+The RUN apt-get clean command is commonly used in Dockerfiles to clean up unnecessary
+files left by apt-get after installing packages, helping to reduce the size of the Docker image.
 
-RUN apt-get update && apt-get install gcc libffi-dev -y
-RUN pip3 install --upgrade pip
+Always combine apt-get update, install, and clean in a single RUN command to reduce the number of intermediate layers in the image.
+Example:
+RUN apt-get update && apt-get install -y <packages> && apt-get clean
 
-# Copy the list of the required packages.
+3)RUN rm -rf /var/lib/apt/lists/* 
+The command RUN rm -rf /var/lib/apt/lists/* is often used in Dockerfiles to remove the cached package index files after running 
+apt-get update and apt-get install. This practice helps in reducing the size of the final Docker image by removing unnecessary temporary files
+
+
+
+4) RUN rm -rf /var/lib/apt/lists/partial/* 
+
+This ensures all cached files, including partial downloads, are removed in one step.
+
+5) RUN rm -rf /var/cache/apt/archives/*
+
+6) RUN apt-get update && apt-get install gcc libffi-dev -y
+
+Always combine apt-get update, install, and cleanup commands in a single RUN to minimize image layers:
+
+7) RUN pip3 install --upgrade pip
+
+8) # Copy the list of the required packages.
 COPY ./base_image/base_image_requirements.txt ./requirements.txt
 
-# Install the list of the required packages.
+9)# Install the list of the required packages.
 RUN pip3 install -r requirements.txt
 
-# Copy the model function file 
+10)# Copy the model function file 
 COPY ./model_utils/md_utils.py ./app/md_utils.py
 
 WORKDIR ./app
 RUN ls -l ./
+
+
+
+
+Build and Test the Dockerfile
+Build the Docker Image:
+
+bash
+Copy code
+docker build -t my-gcc-libffi-image .
+Run the Docker Container:
+
+bash
+Copy code
+docker run -it my-gcc-libffi-image
+Verify Installation:
+
+Inside the container, check for gcc:
+bash
+Copy code
+gcc --version
+Check for libffi-dev:
+bash
+Copy code
+dpkg -l | grep libffi-dev
+
