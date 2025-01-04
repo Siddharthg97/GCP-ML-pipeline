@@ -1,0 +1,57 @@
+# Proximity: https://repository.walmart.com/#search
+FROM google/cloud-sdk:429.0.0@sha256:a9ff4300fea3004433f621f72cb646295c5e25bbe203588ef8ff1fab196c0024
+
+WORKDIR /root
+
+ARG VAR_ELEMENT_PROJECT_ID="ID"
+ARG VAR_ELEMENT_PROJECT_TOKEN="TOKEN"
+ARG VAR_ELEMENT_DECRYPTION_KEY="KEY"
+
+# # added new 
+ENV PIP_ROOT_USER_ACTION=ignore
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
+# # # install system dependencies
+RUN pip3 install --upgrade pip
+RUN apt-get clean && apt-get update -y
+RUN apt-get install -y cmake
+RUN apt-get install -y locales locales-all
+RUN apt-get install net-tools 
+
+# Copy contents
+COPY ./model_utils/md_utils.py ./md_utils.py 
+COPY ./mlflow_image/model_versioning_feedback.py ./model_versioning_feedback.py 
+COPY ./mlflow_image/model_registry.py ./model_registry.py 
+COPY ./mlflow_image/version_transition.py ./version_transition.py 
+COPY ./base_image/base_image_requirements.txt ./requirements.txt
+
+# pip install packages suchas ipykernel, Element MLFlow, requirements for current Models
+RUN python3 -m pip install ipykernel
+RUN python3 -m ipykernel install --user
+RUN pip3 install https://mvn.ci.artifacts.walmart.com/artifactory/mlplatforms-mvn/com/walmart/analytics/platform/library/element-mlflow-plugins/1.24.0_1/element-mlflow-plugins-1.24.0_1.tar.gz
+RUN pip3 install -r requirements.txt
+
+RUN mlflow --version
+
+# Env Variables
+ENV DATASET_SERVICE_HOST="ml.prod.walmart.com" 
+ENV DATASET_SERVICE_PORT="31500" 
+ENV GCP_PROJECT_ID="wmt-mlp-p-price-npd-pricing"
+RUN gcloud config set project $GCP_PROJECT_ID
+
+# RUN bash envs.sh 
+ENV ELEMENT_TOKEN=$VAR_ELEMENT_PROJECT_TOKEN
+ENV PROJECT_TOKEN=$VAR_ELEMENT_PROJECT_TOKEN
+ENV PROJECT_ID=$VAR_ELEMENT_PROJECT_ID
+ENV ELEMENT_DECRYPTION_KEY=$VAR_ELEMENT_DECRYPTION_KEY
+RUN echo $PROJECT_ID
+RUN echo $ELEMENT_DECRYPTION_KEY
+RUN echo $PROJECT_TOKEN
+
+ENV ENV="DEV"
+# # DEV, STAGE
+
+ENV NOTEBOOK_ID="37764"
+ENV MLFLOW_TRACKING_URI="element://"
+ENV CLUSTER_NAME="NA"
+ENV CLUSTER_USER="NA"
