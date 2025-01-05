@@ -1,0 +1,56 @@
+Created by Rudresh Mishra - Vendor, last modified on Jan 02, 2024
+
+
+1	
+Download the gcloud : https://cloud.google.com/sdk/docs/install
+Download the key via Secret Manager:
+
+Secret Manager >> svc-price-npd-pricing-admin >> Versions >> click vertical 3 dots >> view secret value >> copy that value to paste on wmt-mlp-p-price-npd-pricing-279d8709984e.json file.
+Download this cert Proxy_Chain.pem
+Install the gcloud 
+
+Download key file 
+
+Download Proxy Chain 
+
+2	Open windows PowerShell	
+3	gcloud version	Check GCloud version – Only works if gcloud-sdk is properly installed
+4	
+gcloud config set project wmt-mlp-p-price-npd-pricing
+
+To set the project id
+
+5 (optional)	
+gcloud config get-value project
+
+To verify the current project id the gcloud has set
+6	
+gcloud config set account svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com
+
+To set the service account
+7 (optional)	
+gcloud config get-value account
+
+To verify the current service account 
+8	gcloud auth activate-service-account svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com --key-file=C:/Users/{your VN id}/Downloads/wmt-mlp-p-price-npd-pricing-0d42d38d707a.json	Authorize the service account
+9	gcloud config set proxy/type http	Set the proxy type
+10	gcloud config set proxy/address proxy.wal-mart.com	Set the proxy address
+11	gcloud config set proxy/port 9080	Set the port number
+12 	gcloud config set core/custom_ca_certs_file "C:/Users/vn54vvu/Downloads/Proxy_Chain.pem"	Set the certificate pem
+Check point 1	gcloud auth list	Check if your info has been set up properly and appear in the auth list
+Check point 2 (optional)	
+bq query --use_legacy_sql=false 'SELECT * FROM `wmt-mlp-p-price-npd-pricing.pricing_ds_prod.price_point` limit 10'                   
+
+if you have set up your account and project name properly, you should be able to see the table after running the command line
+13	
+Replace 'desired_cluster_name'  with a cluster name of your choice in below command.
+
+gcloud dataproc clusters create desired_cluster_name --region us-central1 --subnet projects/shared-vpc-admin/regions/us-central1/subnetworks/prod-us-central1-01 --enable-component-gateway --optional-components JUPYTER --no-address --zone us-central1-a --service-account svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com --master-machine-type n1-standard-96 --master-boot-disk-size 1TB --num-masters 1 --num-workers 4 --worker-machine-type n1-standard-96 --worker-boot-disk-size 1TB --project wmt-mlp-p-price-npd-pricing --image-version=2.1-debian11 --max-idle 1200s --scopes 'https://www.googleapis.com/auth/cloud-platform' --initialization-actions gs://mle-dataproc-artifacts/mle-dataproc-connector.sh --properties=^#^dataproc:pip.packages='ibis-framework[bigquery]==7.1.0' --metadata spark-bigquery-connector-version=0.32.2
+
+Creating a cluster
+14
+(optional)	
+gcloud dataproc clusters export 'desired_cluster_name --destination 'desired_cluster_name.yaml --region us-central1
+
+Command to save your cluster configuration as a .yaml file
+15 (optional)	gcloud dataproc clusters import 'desired_cluster_name --source 'desired_cluster_name.yaml --region us-central1	Command to read and create your cluster based on saved config
