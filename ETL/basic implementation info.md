@@ -59,7 +59,17 @@ A service account JSON file is required in many contexts when working with cloud
 (GCP).It is a secure way to authenticate and authorize applications or scripts to access cloud resources programmatically.
 service_json = json.loads(''' 
 {
-
+"type": "service_account",
+  "project_id": "wmt--p-price-npd-pricing",
+  "private_key_id": "",
+  "private_key": "-----BEGIN PRIVATE KEY-----KEY-----\\n",
+  "client_email": "svc-price--pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com",
+  "client_id": "",
+  "auth_uri": "https://.google.com/o/oauth2/auth",
+  "token_uri": "https://.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www..com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www..com/robot/v1/metadata/x509/svc-price-npd-pricing-admin%40wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com",
+  "universe_domain": ".com"
 }
 ''')
 credentials = service_account.Credentials.from_service_account_info(service_json)
