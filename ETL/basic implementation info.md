@@ -88,3 +88,8 @@ A unique ID for the service account.
 A private key for secure authentication.
 Scopes or permissions associated with the service account.
 
+credentials = service_account.Credentials.from_service_account_info(service_json)
+bq = bigquery.Client(credentials=credentials, project=credentials.project_id)
+
+
+
