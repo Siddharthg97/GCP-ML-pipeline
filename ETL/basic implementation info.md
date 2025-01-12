@@ -92,4 +92,8 @@ credentials = service_account.Credentials.from_service_account_info(service_json
 bq = bigquery.Client(credentials=credentials, project=credentials.project_id)
 
 
-
+When is it Required?
+Interacting with GCP APIs programmatically.
+Running CI/CD pipelines that interact with GCP resources.
+Using Google Cloud SDK or libraries outside of the GCP environment.
+Automating workflows on resources like BigQuery, Cloud Storage, or Compute Engine.
