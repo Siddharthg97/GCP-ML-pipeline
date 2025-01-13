@@ -18,11 +18,55 @@ To create ML flow pipeline we need containerized applications containing -python
 3) Import all required variables from settings.yml configuration
 4) Start defining decorators as wrappers
 5) Each decorator requires python application for which we are using containrized application
-6) define name variable to execute all the decorators
+6) create decorator for pipeline, calling all the functions defined in other decorator.
+7) define name variable to execute all the decorators
+8) we need to define the compile
 
 We have project utils file to call the required functions, within each decorator
 
 Now we have pipeline utils
+
+### Kubeflow components
+from kfp.v2 import compiler 
+
+The kfp.v2.compiler module is part of the Kubeflow Pipelines SDK (KFP) and is used to compile Python-based pipeline definitions into pipeline job specifications in YAML format. These specifications can then be submitted to run on a Kubeflow Pipelines environment, such as Google Cloud's AI Platform Pipelines.
+
+from kfp.v2.dsl import (
+    Artifact,
+    component,
+    Condition,
+    pipeline,
+    Input,
+    Output,
+    Metrics,
+    Model,
+    Dataset,
+    InputPath,
+    OutputPath,
+)
+import kfp.components as comp
+import kfp.dsl as dsl
+
+
+compiler.Compiler().compile(
+        pipeline_func=pipeline, 
+        package_path=TMP_PIPELINE_JSON
+    )
+
+    pipeline_job = aiplatform.PipelineJob(
+        display_name=f"{PARAM_TUNING}-{PIPELINE_NAME}-{TIMESTAMP}",
+        template_path=TMP_PIPELINE_JSON,
+        pipeline_root=PIPELINE_ROOT,
+        parameter_values={},
+        enable_caching=False,
+    )
+    
+    pipeline_utils.PipelineUtils(
+        storage_path=LATEST_PIPELINE_PATH,
+        file_name=TMP_PIPELINE_JSON
+    ).store_pipeline()
+    
+    pipeline_job.submit(service_account=SERVICE_ACCOUNT, network=NETWORK)
 **Notes** 
 ## Environment variables
 https://www.datacamp.com/tutorial/python-environment-variables 
