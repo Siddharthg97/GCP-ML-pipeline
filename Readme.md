@@ -1,20 +1,36 @@
 ### Steps to create GCP ML pipeline
 
-1) Settings.yml file - contains model configuration & data location
-2) ML pipeline scripts - 
+1) Settings.yml file - contains environment variables , model configuration & data location
+2) ML pipeline scripts - to run these scripts we use kubeflow   
 3) Utils module  - contains function definitions
 4) base flow image 
 5) ML flow image
 6) Pipeline_utils
 7) Decryption
+Q How to start creating the ML pipeline ?
+Kubeflow components - decorators & pipline. To call each decorator defined we need an python application already running, so we run the docker files to create docker images and use them to create containerized application.
+
+To create ML flow pipeline we need containerized applications containing -python configurations, 
 
 
-To create ML flow pipeline we need containerized applications conatining -python configurations, 
+1) Import require libraries
+2) create object of argument parser to define input variables
+3) Import all required variables from settings.yml configuration
+4) Start defining decorators as wrappers
+5) Each decorator requires python application for which we are using containrized application
+6) define name variable to execute all the decorators
 
+We have project utils file to call the required functions, within each decorator
 
-
-
+Now we have pipeline utils
 **Notes** 
+## Environment variables
+https://www.datacamp.com/tutorial/python-environment-variables 
+
+These are key value pairs containing variable name and their path respectively. The path can belong to any executable file like exe file for conda or pip or pyspark or java. Otherwise env varibles can be API keys or login id with passwords to access several applications like cloud applications while running the python scripts.
+Another benefit of environment variables is configurability. You can easily adjust settings (database URLs, file paths) by modifying environment variables without changing your code. This feature is especially helpful if you use the same setting in multiple parts of your project.
+These login id and passwords or API keys are not safe to be stored in github repositories as can be accessed by hackers or any malicious activity
+
 We can create our own argument parser
 It is basucally a container that contains all the argument we want to pass from commmand line.
 https://docs.python.org/3/library/argparse.html
@@ -201,17 +217,20 @@ template_path:
 
 The path to the pipeline template JSON file, often generated using tools like Kubeflow or TFX.
 Example: "gs://your-bucket-name/path/to/pipeline.json"
+
+
+ 
 pipeline_root:
 
 Specifies the GCS path where the pipeline stores artifacts and outputs.
 Example: "gs://your-pipeline-root/path/"
-parameter_values:
 
+parameter_values:
 A dictionary of parameters to customize the pipeline run.
 Example: {"learning_rate": 0.01, "num_epochs": 5}.
 Empty {} means the pipeline uses default parameters defined in the template.
-enable_caching:
 
+enable_caching:
 Determines whether caching is enabled for the pipeline steps.
 False disables caching, ensuring all steps are re-executed even if the inputs and logic remain the same.
 Submitting the Pipeline Job
@@ -233,9 +252,9 @@ pipeline_job = aiplatform.PipelineJob(
     enable_caching=False,
 )
 
+
 # Submit the pipeline job
 pipeline_job.run(sync=True)  # Use sync=False to run asynchronously
-
 print(f"Pipeline job {pipeline_job.display_name} submitted.")
 
 
