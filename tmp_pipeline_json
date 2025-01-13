@@ -1,0 +1,1568 @@
+{
+    "pipelineSpec": {
+        "components": {
+            "comp-element-model-registry": {
+                "executorLabel": "exec-element-model-registry",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "category_error_input": {
+                            "type": "STRING"
+                        },
+                        "covariates": {
+                            "type": "STRING"
+                        },
+                        "data_fraction": {
+                            "type": "DOUBLE"
+                        },
+                        "dynamic_config_key": {
+                            "type": "STRING"
+                        },
+                        "encode_features": {
+                            "type": "STRING"
+                        },
+                        "md_metrics_input_logs": {
+                            "type": "STRING"
+                        },
+                        "md_metrics_input_manual": {
+                            "type": "STRING"
+                        },
+                        "mlflow_exp_name": {
+                            "type": "STRING"
+                        },
+                        "model_registry_name": {
+                            "type": "STRING"
+                        },
+                        "param_tuning": {
+                            "type": "STRING"
+                        },
+                        "pipeline_name": {
+                            "type": "STRING"
+                        },
+                        "response": {
+                            "type": "STRING"
+                        },
+                        "rounds": {
+                            "type": "INT"
+                        },
+                        "run_configurations_input": {
+                            "type": "STRING"
+                        },
+                        "tolerance": {
+                            "type": "DOUBLE"
+                        },
+                        "train_params": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "current_version": {
+                            "type": "INT"
+                        },
+                        "mlflow_exp_name": {
+                            "type": "STRING"
+                        },
+                        "model_registry_name": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-get-prepared-data": {
+                "executorLabel": "exec-get-prepared-data",
+                "inputDefinitions": {
+                    "parameters": {
+                        "data_storage_gcs_uri": {
+                            "type": "STRING"
+                        },
+                        "ds_eval_table_name_input": {
+                            "type": "STRING"
+                        },
+                        "env": {
+                            "type": "STRING"
+                        },
+                        "manual_eval_table_name_input": {
+                            "type": "STRING"
+                        },
+                        "pipeline_root": {
+                            "type": "STRING"
+                        },
+                        "project_id": {
+                            "type": "STRING"
+                        },
+                        "test_table_name_input": {
+                            "type": "STRING"
+                        },
+                        "train_table_name_input": {
+                            "type": "STRING"
+                        },
+                        "val_table_name_input": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "ds_eval_data_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "manual_eval_data_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_data_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "train_data_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "val_data_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "max_date": {
+                            "type": "STRING"
+                        },
+                        "min_date": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-model-evaluation": {
+                "executorLabel": "exec-model-evaluation",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_data_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "covariates": {
+                            "type": "STRING"
+                        },
+                        "eval_cat_output_path": {
+                            "type": "STRING"
+                        },
+                        "eval_overall_output_path": {
+                            "type": "STRING"
+                        },
+                        "eval_prediction_output_path": {
+                            "type": "STRING"
+                        },
+                        "latest_md_metrics_path_input": {
+                            "type": "STRING"
+                        },
+                        "pipeline_root": {
+                            "type": "STRING"
+                        },
+                        "project_id": {
+                            "type": "STRING"
+                        },
+                        "train_val_test_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "category_error_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "md_metrics_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Metrics",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "overall_error_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_prediction_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "category_error": {
+                            "type": "STRING"
+                        },
+                        "md_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-model-evaluation-2": {
+                "executorLabel": "exec-model-evaluation-2",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_data_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "covariates": {
+                            "type": "STRING"
+                        },
+                        "eval_cat_output_path": {
+                            "type": "STRING"
+                        },
+                        "eval_overall_output_path": {
+                            "type": "STRING"
+                        },
+                        "eval_prediction_output_path": {
+                            "type": "STRING"
+                        },
+                        "latest_md_metrics_path_input": {
+                            "type": "STRING"
+                        },
+                        "pipeline_root": {
+                            "type": "STRING"
+                        },
+                        "project_id": {
+                            "type": "STRING"
+                        },
+                        "train_val_test_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "category_error_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "md_metrics_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Metrics",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "overall_error_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_prediction_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "category_error": {
+                            "type": "STRING"
+                        },
+                        "md_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-model-test": {
+                "executorLabel": "exec-model-test",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_data_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "covariates": {
+                            "type": "STRING"
+                        },
+                        "latest_md_metrics_path_input": {
+                            "type": "STRING"
+                        },
+                        "pipeline_root": {
+                            "type": "STRING"
+                        },
+                        "train_val_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "category_error_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "md_metrics_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Metrics",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "merged_pred_cat_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_prediction_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "category_error": {
+                            "type": "STRING"
+                        },
+                        "md_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-model-versioning-feedback": {
+                "executorLabel": "exec-model-versioning-feedback",
+                "inputDefinitions": {
+                    "parameters": {
+                        "mlflow_exp_name": {
+                            "type": "STRING"
+                        },
+                        "model_registry_name": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "parameters": {
+                        "Output": {
+                            "type": "INT"
+                        }
+                    }
+                }
+            },
+            "comp-post-analysis": {
+                "executorLabel": "exec-post-analysis",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "test_data_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "elasticity_output_path": {
+                            "type": "STRING"
+                        },
+                        "pipeline_root": {
+                            "type": "STRING"
+                        },
+                        "project_id": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "output_curve_image": {
+                            "artifactType": {
+                                "schemaTitle": "system.Artifact",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "output_importance_image": {
+                            "artifactType": {
+                                "schemaTitle": "system.Artifact",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    }
+                }
+            },
+            "comp-premodeling-processing": {
+                "executorLabel": "exec-premodeling-processing",
+                "inputDefinitions": {
+                    "parameters": {
+                        "constrained_features": {
+                            "type": "STRING"
+                        },
+                        "covariates": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "parameters": {
+                        "Output": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-run-configurations": {
+                "executorLabel": "exec-run-configurations",
+                "inputDefinitions": {
+                    "parameters": {
+                        "category_universe_value_input": {
+                            "type": "STRING"
+                        },
+                        "config_hashmap": {
+                            "type": "STRING"
+                        },
+                        "last_md_ver_input": {
+                            "type": "INT"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "parameters": {
+                        "run_config_hmap_output": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            },
+            "comp-train-eval-markdown-model": {
+                "executorLabel": "exec-train-eval-markdown-model",
+                "inputDefinitions": {
+                    "artifacts": {
+                        "train_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        },
+                        "val_input": {
+                            "artifactType": {
+                                "schemaTitle": "system.Dataset",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "constraints": {
+                            "type": "STRING"
+                        },
+                        "covariates": {
+                            "type": "STRING"
+                        },
+                        "encode_features": {
+                            "type": "STRING"
+                        },
+                        "latest_md_params_path_input": {
+                            "type": "STRING"
+                        },
+                        "manual_params": {
+                            "type": "STRING"
+                        },
+                        "param_flag": {
+                            "type": "STRING"
+                        },
+                        "response": {
+                            "type": "STRING"
+                        },
+                        "rounds": {
+                            "type": "INT"
+                        },
+                        "tolerance": {
+                            "type": "DOUBLE"
+                        }
+                    }
+                },
+                "outputDefinitions": {
+                    "artifacts": {
+                        "markdown_model_output": {
+                            "artifactType": {
+                                "schemaTitle": "system.Model",
+                                "schemaVersion": "0.0.1"
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "train_val_metrics": {
+                            "type": "STRING"
+                        }
+                    }
+                }
+            }
+        },
+        "deploymentSpec": {
+            "executors": {
+                "exec-element-model-registry": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "element_model_registry"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef element_model_registry(\n    pipeline_name:str,\n    dynamic_config_key:str,\n    run_configurations_input: Dict,\n    param_tuning: str, #PARAM_TUNING\n    data_fraction: float, #CONFIG_HASHMAP[\"DATA_FRACTION\"]\n    covariates: List[str], #COVARIATES\n    response: List[str], #RESPONSE\n    rounds: int, #ROUNDS\n    tolerance: float, #TOLERANCE\n    # constraints: List[int],\n    encode_features: List[str],\n    train_params: Dict, #TRAIN_PARAMS\n    # txt_input: Input[Artifact],\n    # prediction_input: Input[Dataset],\n    # merged_pred_cat_input: Input[Dataset],\n    markdown_model_input: Input[Model],\n    md_metrics_input_logs: Dict,\n    md_metrics_input_manual: Dict,\n    category_error_input: Dict,\n    model_registry_name: str,\n    mlflow_exp_name: str,\n    markdown_model_output: Output[Model],\n) -> NamedTuple(\"Outputs\", [(\"model_registry_name\", str), \n                            (\"mlflow_exp_name\", str),\n                            (\"current_version\", int)\n]):\n    \"\"\"Register the NewItem model to MLFlow.\n    Args:\n        newitem_model_input: NewItem model saved in GCS bucket.\n        model_registry_name: Model registry name for MLFlow Model.\n        mlflow_exp_name: Model experiment name for MLFlow Experiemnt.\n        current_auc_score: AUC score from trained model.\n    Returns:\n        model_registry_name: Model registry name for MLFlow Model as output.\n        mlflow_exp_name: Model experiment name for MLFlow Experiemnt as output.\n        current_version: Model version of model as output.\n        current_auc_score: AUC score from trained model as output\n    \"\"\"\n    from google.cloud import storage\n    import os\n    import argparse\n    import pandas as pd\n    import numpy as np\n    import md_utils\n    import pickle\n    from tempfile import TemporaryFile\n    from mlflow.tracking.client import MlflowClient\n    from collections import namedtuple\n    import mlflow\n    import joblib\n    import json\n    import shutil\n    from plotly.offline import plot\n    import plotnine \n\n    # pdf_prediction = pd.read_parquet(prediction_input.path+\".gzip\")\n    # pdf_merged_pred_cat = pd.read_parquet(merged_pred_cat_input.path+\".gzip\")\n    # shutil.copy2(txt_input.path+\".txt\", \"post_analysis.txt\")\n\n    #------------------------\n    # Parameters   \n    #------------------------\n    params = {\n        \"version\": run_configurations_input[\"run_version\"], \n        \"param_tuning\": param_tuning,\n        \"data_fraction\": data_fraction,\n        \"train_period\": run_configurations_input[dynamic_config_key][\"train_period\"],\n        \"test_period\": run_configurations_input[dynamic_config_key][\"test_period\"],\n        # \"category_universe\": run_configurations_input[\"category_universe\"],\n        \"covariates\": covariates,\n        \"response\": response,\n        \"rounds\": rounds,\n        \"tolerance\": tolerance,\n        \"encode_features\": encode_features,\n        \"train_params\": train_params,\n    }\n    #------------------------\n    # model\n    #------------------------\n    with open(markdown_model_input.path, \"rb\") as file:\n        markdown_model = joblib.load(file)\n    #------------------------\n    # Plots\n    #------------------------\n    analysis_obj = md_utils.PostAnalysis()\n    # feature importance\n    feature_importance = pd.DataFrame()\n    feature_importance[\"features\"] = covariates\n    feature_importance[\"importance\"] = markdown_model.steps[1][1].feature_importances_\n    feat_imp_fig = analysis_obj.feat_imp_ggplot(data=feature_importance, x_val=\"features\", y_val=\"importance\")\n    # Median Absolute Percentage Error\n    # median_ape = round(np.median(pdf_merged_pred_cat[\"ape\"]), 2)\n    # text = f'Median APE: {median_ape}'\n    # ape_cdf_fig = analysis_obj.ape_cdf_ggplot(data=pdf_merged_pred_cat, text=text, x_val=\"ape\")\n    # Median Absolute Percentage Error Per Category\n    # cat_ape_cdf_fig = analysis_obj.cat_ape_cdf_ggplot(data=pdf_merged_pred_cat, x_val=\"ape\")\n    # Units Error Density\n    # bias = round(np.mean(pdf_prediction[\"units_error\"]),1)\n    # text = f'Bias: {bias}'\n    # units_error_fig = analysis_obj.units_error_ggplot(data=pdf_prediction, text=text, x_min_lim=-250, x_max_lim=250, x_axis=500, y_axis=0.02, x_val=\"units_error\")\n    # Units Error Limited Axis Density\n    # bias = round(np.mean(pdf_prediction.query(\"units_error > -100 & units_error < 100\")[\"units_error\"]),1)\n    # text = f'Bias: {bias}'\n    # units_error_lim_fig = analysis_obj.units_error_ggplot(data=pdf_prediction, text=text, x_min_lim=-100, x_max_lim=100, x_axis=50, y_axis=0.02, x_val=\"units_error\")\n    # Units Error vs Cumulated Sales\n    # error_vs_true_fig = analysis_obj.error_true_pred_ggplot(data=pdf_prediction, text='', x_val=\"cum_sale\", y_val=\"units_error\")\n    # # Units Error vs Predicted Sales\n    # error_vs_pred_fig = analysis_obj.error_true_pred_ggplot(data=pdf_prediction, text='', x_val=\"predicted_sale\", y_val=\"units_error\")\n    # # Predicted Sales vs Cumulated Sales\n    # pred_vs_true_fig = analysis_obj.error_true_pred_ggplot(data=pdf_prediction, text='', x_val=\"cum_sale\", y_val=\"predicted_sale\")\n\n    # Initialize client\n    c = MlflowClient()\n\n    mlflow.set_experiment(mlflow_exp_name)\n\n    experiment_id = c.get_experiment_by_name(mlflow_exp_name).experiment_id\n\n    # Launching Multiple Runs in One Program.This is easy to do because the ActiveRun object returned by mlflow.start_run() is a\n    # Python context manager. You can “scope” each run to just one block of code as follows:\n    with mlflow.start_run(experiment_id=experiment_id,run_name = pipeline_name) as run:\n        # Get run id \n        run_id = run.info.run_uuid\n\n        mlflow.sklearn.log_model(\n            sk_model=markdown_model, \n            artifact_path=\"md_model\",\n            registered_model_name=model_registry_name,\n        )\n\n        current_version = int(c.get_latest_versions(model_registry_name, stages=[\"None\"])[0].version)\n        print('current_version')\n\n        c.set_tag(\n            run_id,\n            \"mlflow.note.content\",\n            \"This is experiment for testing\"\n        )\n\n        # Define customer tag\n        tags = {\n            \"Application\": \"Markdown\",\n            \"tags_model_version\": f\"{str(current_version)}\",\n            \"tags_run_id\": f\"{run_id}\"\n        }\n\n        # Set Tag\n        mlflow.set_tags(tags)\n\n        # Log python re details\n        # mlflow.log_artifact(\"post_analysis.txt\")\n\n        # logging params\n        mlflow.log_param(\"run_id\", run_id)\n        #mlflow.log_params(params)\n        # log metrics\n        print(md_metrics_input_logs)\n        mlflow.log_metrics(md_metrics_input_logs)\n\n        print(md_metrics_input_manual)\n        mlflow.log_metrics(md_metrics_input_manual)\n\n        # log artifact\n        pd.DataFrame.from_dict(category_error_input).to_csv(\"category_error.csv\", index=False),\n        mlflow.log_artifact(\"category_error.csv\")\n\n#         with open(markdown_model_output.path, \"wb\") as file:  \n#             joblib.dump(markdown_model, file)\n\n        # mlflow.log_figure(feat_imp_fig.draw(), \"feat_imp.png\")\n        # mlflow.log_figure(ape_cdf_fig.draw(), \"ape_cdf.png\")\n        # mlflow.log_figure(cat_ape_cdf_fig.draw(), \"cat_ape_cdf.png\")\n        # mlflow.log_figure(units_error_fig.draw(), \"units_error.png\")\n        # mlflow.log_figure(units_error_lim_fig.draw(), \"units_error_dist_lim.png\")\n        # mlflow.log_figure(error_vs_true_fig.draw(), \"error_vs_true.png\")\n        # mlflow.log_figure(error_vs_pred_fig.draw(), \"error_vs_pred.png\")\n        # mlflow.log_figure(pred_vs_true_fig.draw(), \"pred_vs_true.png\")\n\n    element_model_registry_output = namedtuple(\"Outputs\", [\"model_registry_name\", \"mlflow_exp_name\", \"current_version\"])\n    return element_model_registry_output(model_registry_name, mlflow_exp_name, current_version)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-mlflow-dev:latest",
+                        "resources": {
+                            "cpuLimit": 32,
+                            "memoryLimit": 64
+                        }
+                    }
+                },
+                "exec-get-prepared-data": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "get_prepared_data"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef get_prepared_data(\n    train_table_name_input: str,\n    val_table_name_input: str,\n    test_table_name_input: str,\n    ds_eval_table_name_input: str,\n    manual_eval_table_name_input: str,\n    project_id: str,\n    env: str,\n    pipeline_root: str,\n    data_storage_gcs_uri : str,\n    train_data_output: Output[Dataset],\n    val_data_output: Output[Dataset],\n    test_data_output: Output[Dataset],\n    ds_eval_data_output: Output[Dataset],\n    manual_eval_data_output: Output[Dataset]\n) -> NamedTuple(\"Outputs\", [(\"min_date\", str),\n                            (\"max_date\", str),\n                            ]):\n    import pandas as pd\n    import numpy as np\n    from google.cloud import bigquery\n    import md_utils\n    import gcsfs\n    from pyarrow import parquet\n\n    bq_project_id =train_table_name_input.split('.')[0]\n    bq_dataset_id =train_table_name_input.split('.')[1]\n    bq_train_table_id = train_table_name_input.split('.')[2]\n    bq_val_table_id = val_table_name_input.split('.')[2]\n    bq_test_table_id = test_table_name_input.split('.')[2]\n    bq_ds_eval_table_id = ds_eval_table_name_input.split('.')[2]\n    bq_manual_eval_table_id = manual_eval_table_name_input.split('.')[2]\n\n\n    train_destination_uri = f'{data_storage_gcs_uri}/md_train_inclub/*.parquet'\n    val_destination_uri = f'{data_storage_gcs_uri}/md_val_inclub/*.parquet'\n    test_destination_uri = f'{data_storage_gcs_uri}/md_test_inclub/*.parquet'\n    ds_eval_destination_uri = f'{data_storage_gcs_uri}/md_ds_eval_inclub/*.parquet'\n    manual_eval_destination_uri = f'{data_storage_gcs_uri}/md_manual_eval_inclub/*.parquet'\n\n    #delete old files\n    fs = gcsfs.GCSFileSystem()\n    train_files = [\"gs://\" + path for path in fs.glob(train_destination_uri)]\n    val_files = [\"gs://\" + path for path in fs.glob(val_destination_uri)]\n    test_files = [\"gs://\" + path for path in fs.glob(test_destination_uri)]\n    ds_eval_files = [\"gs://\" + path for path in fs.glob(ds_eval_destination_uri)]\n    manual_eval_files = [\"gs://\" + path for path in fs.glob(manual_eval_destination_uri)]\n\n    if train_files:\n        fs.rm(train_files)\n    if val_files:\n        fs.rm(val_files)\n    if test_files:\n        fs.rm(test_files)\n    if ds_eval_files:\n        fs.rm(ds_eval_files)\n    if manual_eval_files:\n        fs.rm(manual_eval_files)\n\n    dataset_ref = bigquery.DatasetReference(bq_project_id, bq_dataset_id)\n    train_table_ref = dataset_ref.table(bq_train_table_id)\n    val_table_ref = dataset_ref.table(bq_val_table_id)\n    test_table_ref = dataset_ref.table(bq_test_table_id)\n    ds_eval_table_ref = dataset_ref.table(bq_ds_eval_table_id)\n    manual_eval_table_ref = dataset_ref.table(bq_manual_eval_table_id)\n\n    job_config = bigquery.job.ExtractJobConfig()\n    job_config.destination_format = bigquery.DestinationFormat.PARQUET\n    client = bigquery.Client(project=project_id)\n    train_extract_job = client.extract_table(\n        train_table_ref,\n        train_destination_uri,\n        location=\"US\",\n        job_config=job_config,\n    )  \n    train_extract_job.result()\n    val_extract_job = client.extract_table(\n        val_table_ref,\n        val_destination_uri,\n        location=\"US\",\n        job_config=job_config,\n    )\n    val_extract_job.result()\n    test_extract_job = client.extract_table(\n        test_table_ref,\n        test_destination_uri,\n        location=\"US\",\n        job_config=job_config,\n    )\n    test_extract_job.result()\n    ds_eval_extract_job = client.extract_table(\n        ds_eval_table_ref,\n        ds_eval_destination_uri,\n        location=\"US\",\n        job_config=job_config,\n    )\n    ds_eval_extract_job.result()\n    manual_eval_extract_job = client.extract_table(\n        manual_eval_table_ref,\n        manual_eval_destination_uri,\n        location=\"US\",\n        job_config=job_config,\n    )\n    manual_eval_extract_job.result()\n\n\n    print(\"Writing data to GCS bucket is completed\")\n\n\n    train_ds = parquet.ParquetDataset(train_files, filesystem=fs)\n    train_data = train_ds.read().to_pandas()\n    print(train_data.columns)\n    print('training_data load completed')\n\n    val_ds = parquet.ParquetDataset(val_files, filesystem=fs)\n    val_data = val_ds.read().to_pandas()\n    print('val_data load completed')\n\n    test_ds = parquet.ParquetDataset(test_files, filesystem=fs)\n    test_data = test_ds.read().to_pandas()\n    print('test_data load completed')\n\n    ds_eval_ds = parquet.ParquetDataset(ds_eval_files, filesystem=fs)\n    ds_eval_data = ds_eval_ds.read().to_pandas()\n    print('Eval_data load completed')\n\n    manual_eval_ds = parquet.ParquetDataset(manual_eval_files, filesystem=fs)\n    manual_eval_data = manual_eval_ds.read().to_pandas()\n    print('Eval_data load completed')\n\n\n    min_date = np.min(train_data['date'])\n    max_date = np.max(train_data['date'])\n    print(f'Train Min Week Start Date {min_date}')\n    print(f'Train Max Week Start Date {max_date}')\n    print(\"Train features_data size:\", train_data.shape)\n\n    min_date = np.min(val_data['date'])\n    max_date = np.max(val_data['date'])\n    print(f'val Min Week Start Date {min_date}')\n    print(f'val Max Week Start Date {max_date}')\n    print(\"val features_data size:\", val_data.shape)\n\n    min_date = np.min(test_data['date'])\n    max_date = np.max(test_data['date'])\n    print(f'Test Min Week Start Date {min_date}')\n    print(f'Test Max Week Start Date {max_date}')\n    print(\"Test features_data size:\", test_data.shape)\n\n    min_date = np.min(ds_eval_data['date'])\n    max_date = np.max(ds_eval_data['date'])\n    print(f'DS Eval Min Week Start Date {min_date}')\n    print(f'DS Eval Max Week Start Date {max_date}')\n    print(\"DS Eval features_data size:\", ds_eval_data.shape)\n\n    min_date = np.min(manual_eval_data['date'])\n    max_date = np.max(manual_eval_data['date'])\n    print(f'Manual Eval Min Week Start Date {min_date}')\n    print(f'Manual Eval Max Week Start Date {max_date}')\n    print(\"Manual Eval features_data size:\", manual_eval_data.shape)\n\n    #test code vn54vvu\n    ds_eval_data['department_nbr'] = ds_eval_data['department_nbr'].fillna(-1)\n    manual_eval_data['department_nbr'] = manual_eval_data['department_nbr'].fillna(-1)\n\n\n    train_data.to_parquet(train_data_output.path + \".gzip\", index=False, compression=\"gzip\")\n    print(\"train_data write finished\")\n    val_data.to_parquet(val_data_output.path + \".gzip\", index=False, compression=\"gzip\")\n    print(\"val_data write finished\")\n    test_data.to_parquet(test_data_output.path + \".gzip\", index=False, compression=\"gzip\")\n    print(\"test_data write finished\")\n    ds_eval_data.to_parquet(ds_eval_data_output.path + \".gzip\", index=False, compression=\"gzip\")\n    print(\"ds_eval_data write finished\")\n    manual_eval_data.to_parquet(manual_eval_data_output.path + \".gzip\", index=False, compression=\"gzip\")\n    print(\"manual_eval_data_output write finished\")\n\n    return str(min_date), str(max_date)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 96,
+                            "memoryLimit": 624
+                        }
+                    }
+                },
+                "exec-model-evaluation": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "model_evaluation"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef model_evaluation(\n        pipeline_root: str,\n        project_id: str,\n        test_data_input: Input[Dataset],\n        markdown_model_input: Input[Model],\n        covariates: List[str],  # COVARIATES\n        train_val_test_metrics: Dict,\n        latest_md_metrics_path_input: str,\n        eval_prediction_output_path: str,\n        eval_cat_output_path: str,\n        eval_overall_output_path: str,\n        md_metrics_output: Output[Metrics],\n        test_prediction_output: Output[Dataset],\n        category_error_output: Output[Dataset],\n        overall_error_output: Output[Dataset],\n) -> NamedTuple(\"Outputs\", [(\"md_metrics\", Dict), (\"category_error\", Dict)]\n                ):\n\n\n    import pandas as pd\n    import md_utils\n    import joblib\n    from google.cloud import storage\n    from collections import namedtuple\n    import json\n    import datetime\n    from datetime import date\n    import numpy as np\n    from google.cloud import bigquery\n    from google.cloud import storage\n\n    eval_pred_cols = [\n        'subclass_nbr',\n        'mds_fam_id',\n        'club_nbr',\n        'dept_nbr',\n        'item_nbr',\n        'date',\n        'unit_price_amt',\n        'markdown_start_date_dt',\n        'oos_date',\n        'num_weeks',\n        'target',\n        'predicted_sales',\n        'run_date'\n    ]\n\n    cat_results_cols = [\n        'n_samples',\n        'rmse',\n        'wmape',\n        'smape',\n        'oep_sample',\n        'oe_value',\n        'oep_total',\n        'dept_nbr',\n        'metric_target',\n        'eval_set_start_date',\n        'description',\n        'run_date'\n    ]\n\n    overall_results_cols = [\n        'n_samples',\n        'rmse',\n        'wmape',\n        'smape',\n        'oep_sample',\n        'oe_value',\n        'oep_total',\n        'metric_target',\n        'eval_set_start_date',\n        'run_date'\n    ]\n\n\n\n    today_dt = str(date.today())\n\n    test_data = pd.read_parquet(test_data_input.path + \".gzip\")\n    print(\"test_data size:\", test_data.shape)\n\n    eval_obj = md_utils.EvaluationLayer()\n\n    with open(markdown_model_input.path, \"rb\") as file:\n        pipeline = joblib.load(file)\n\n    test_prediction = eval_obj.sale_prediction(data=test_data, pipeline=pipeline,\n                                               covariates=covariates)  # bucketed_md_test_data    \n    test_metrics, test_prediction = eval_obj.eval_metrics(data=test_prediction)\n\n    print(\"test_prediction size:\", test_prediction.shape)\n    print(\"test_metrics:\", test_metrics)\n\n    md_metrics = eval_obj.combine_hmaps(train_val_test_metrics, test_metrics)\n\n    test_prediction['target_last_week'] = test_prediction.sort_values(['mds_fam_id', 'club_nbr', 'date', 'num_weeks']).groupby(['mds_fam_id', 'club_nbr', 'date'])['target'].shift(1)\n    test_prediction['target_last_week'] = test_prediction['target_last_week'].fillna(0)\n    test_prediction['target_weekly'] = test_prediction['target'] - test_prediction['target_last_week']\n\n    test_prediction['pred_last_week'] = test_prediction.sort_values(['mds_fam_id', 'club_nbr', 'date', 'num_weeks']).groupby(['mds_fam_id', 'club_nbr', 'date'])['predicted_sales'].shift(1)\n    test_prediction['pred_last_week'] = test_prediction['pred_last_week'].fillna(0)\n    test_prediction['predicted_sales_weekly'] = test_prediction['predicted_sales'] - test_prediction['pred_last_week']\n\n    week_test_metrics, test_prediction = eval_obj.eval_metrics_weekly(data=test_prediction)\n\n    md_metrics = eval_obj.combine_hmaps(md_metrics, week_test_metrics)\n\n    print(\"md_metrics:\", md_metrics)\n\n    blob = storage.blob.Blob.from_string(latest_md_metrics_path_input, client=storage.Client())\n    blob.upload_from_string(data=json.dumps(md_metrics, indent=4), content_type=\"application/json\")\n\n    for metric_key, metric_val in md_metrics.items():\n        md_metrics_output.log_metric(metric_key, str(metric_val))\n\n    test_prediction[\"dept_nbr\"] = test_prediction[\"department_nbr\"].astype(int)\n    test_prediction['run_date'] = today_dt\n#     test_prediction['target'] = np.where(test_prediction['target'] == 0, 1, test_prediction['target'])\n    test_prediction.to_parquet(test_prediction_output.path + \".gzip\", index=False, compression=\"gzip\")\n    test_prediction_bq = test_prediction[eval_pred_cols]\n\n\n    eval_pred_table_schema = [\n        bigquery.SchemaField(\"subclass_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"mds_fam_id\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"dept_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"item_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"club_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"unit_price_amt\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"markdown_start_date_dt\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oos_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"num_weeks\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"target\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"predicted_sales\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_pred_table_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(test_prediction_bq, eval_prediction_output_path, job_config=job_config)\n    job.result()\n\n    cat_description = pd.read_csv(f\"{pipeline_root}/markdown_data/cat_nbr_description_map.csv\")\n    cat_description = cat_description.rename({'category_nbr': 'dept_nbr'}, axis='columns')\n    pdf_merged_pred_cat = test_prediction.merge(cat_description, on=\"dept_nbr\", how=\"left\")\n\n    category_error = eval_obj.compute_category_error(test_prediction).merge(cat_description, on=\"dept_nbr\", how=\"left\")\n    category_error['run_date'] = today_dt\n    category_error.to_parquet(category_error_output.path + \".gzip\", index=False, compression=\"gzip\")\n    category_results_bq = category_error[cat_results_cols]\n    category_error['eval_set_start_date'] = pd.to_datetime(category_error['eval_set_start_date'],\n                                                           format='%Y-%m-%d').dt.strftime('%Y-%m-%d')\n    category_error_dict = category_error.to_dict()\n    model_evaluation_output = namedtuple(\"Outputs\", [\"md_metrics\", \"category_error\"])\n\n\n    eval_cat_results_schema = [\n        bigquery.SchemaField(\"n_samples\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"rmse\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"wmape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"smape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_sample\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oe_value\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_total\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"dept_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"metric_target\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"eval_set_start_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"description\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_cat_results_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(category_results_bq, eval_cat_output_path, job_config=job_config)\n    job.result()\n\n\n    test_prediction_overall = test_prediction.copy()\n    test_prediction_overall['dept_nbr'] = 0\n    overall_test_results = eval_obj.compute_category_error(test_prediction_overall)\n    overall_test_results['run_date'] = today_dt\n    overall_test_results.to_parquet(overall_error_output.path + \".gzip\", index=False, compression=\"gzip\")\n    overall_results_bq = overall_test_results[overall_results_cols]\n\n    eval_overall_results_schema = [\n        bigquery.SchemaField(\"n_samples\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"rmse\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"wmape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"smape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_sample\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oe_value\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_total\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"metric_target\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"eval_set_start_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_overall_results_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(overall_results_bq, eval_overall_output_path, job_config=job_config)\n    job.result()\n\n    return model_evaluation_output(md_metrics, category_error_dict)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 32,
+                            "memoryLimit": 64
+                        }
+                    }
+                },
+                "exec-model-evaluation-2": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "model_evaluation"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef model_evaluation(\n        pipeline_root: str,\n        project_id: str,\n        test_data_input: Input[Dataset],\n        markdown_model_input: Input[Model],\n        covariates: List[str],  # COVARIATES\n        train_val_test_metrics: Dict,\n        latest_md_metrics_path_input: str,\n        eval_prediction_output_path: str,\n        eval_cat_output_path: str,\n        eval_overall_output_path: str,\n        md_metrics_output: Output[Metrics],\n        test_prediction_output: Output[Dataset],\n        category_error_output: Output[Dataset],\n        overall_error_output: Output[Dataset],\n) -> NamedTuple(\"Outputs\", [(\"md_metrics\", Dict), (\"category_error\", Dict)]\n                ):\n\n\n    import pandas as pd\n    import md_utils\n    import joblib\n    from google.cloud import storage\n    from collections import namedtuple\n    import json\n    import datetime\n    from datetime import date\n    import numpy as np\n    from google.cloud import bigquery\n    from google.cloud import storage\n\n    eval_pred_cols = [\n        'subclass_nbr',\n        'mds_fam_id',\n        'club_nbr',\n        'dept_nbr',\n        'item_nbr',\n        'date',\n        'unit_price_amt',\n        'markdown_start_date_dt',\n        'oos_date',\n        'num_weeks',\n        'target',\n        'predicted_sales',\n        'run_date'\n    ]\n\n    cat_results_cols = [\n        'n_samples',\n        'rmse',\n        'wmape',\n        'smape',\n        'oep_sample',\n        'oe_value',\n        'oep_total',\n        'dept_nbr',\n        'metric_target',\n        'eval_set_start_date',\n        'description',\n        'run_date'\n    ]\n\n    overall_results_cols = [\n        'n_samples',\n        'rmse',\n        'wmape',\n        'smape',\n        'oep_sample',\n        'oe_value',\n        'oep_total',\n        'metric_target',\n        'eval_set_start_date',\n        'run_date'\n    ]\n\n\n\n    today_dt = str(date.today())\n\n    test_data = pd.read_parquet(test_data_input.path + \".gzip\")\n    print(\"test_data size:\", test_data.shape)\n\n    eval_obj = md_utils.EvaluationLayer()\n\n    with open(markdown_model_input.path, \"rb\") as file:\n        pipeline = joblib.load(file)\n\n    test_prediction = eval_obj.sale_prediction(data=test_data, pipeline=pipeline,\n                                               covariates=covariates)  # bucketed_md_test_data    \n    test_metrics, test_prediction = eval_obj.eval_metrics(data=test_prediction)\n\n    print(\"test_prediction size:\", test_prediction.shape)\n    print(\"test_metrics:\", test_metrics)\n\n    md_metrics = eval_obj.combine_hmaps(train_val_test_metrics, test_metrics)\n\n    test_prediction['target_last_week'] = test_prediction.sort_values(['mds_fam_id', 'club_nbr', 'date', 'num_weeks']).groupby(['mds_fam_id', 'club_nbr', 'date'])['target'].shift(1)\n    test_prediction['target_last_week'] = test_prediction['target_last_week'].fillna(0)\n    test_prediction['target_weekly'] = test_prediction['target'] - test_prediction['target_last_week']\n\n    test_prediction['pred_last_week'] = test_prediction.sort_values(['mds_fam_id', 'club_nbr', 'date', 'num_weeks']).groupby(['mds_fam_id', 'club_nbr', 'date'])['predicted_sales'].shift(1)\n    test_prediction['pred_last_week'] = test_prediction['pred_last_week'].fillna(0)\n    test_prediction['predicted_sales_weekly'] = test_prediction['predicted_sales'] - test_prediction['pred_last_week']\n\n    week_test_metrics, test_prediction = eval_obj.eval_metrics_weekly(data=test_prediction)\n\n    md_metrics = eval_obj.combine_hmaps(md_metrics, week_test_metrics)\n\n    print(\"md_metrics:\", md_metrics)\n\n    blob = storage.blob.Blob.from_string(latest_md_metrics_path_input, client=storage.Client())\n    blob.upload_from_string(data=json.dumps(md_metrics, indent=4), content_type=\"application/json\")\n\n    for metric_key, metric_val in md_metrics.items():\n        md_metrics_output.log_metric(metric_key, str(metric_val))\n\n    test_prediction[\"dept_nbr\"] = test_prediction[\"department_nbr\"].astype(int)\n    test_prediction['run_date'] = today_dt\n#     test_prediction['target'] = np.where(test_prediction['target'] == 0, 1, test_prediction['target'])\n    test_prediction.to_parquet(test_prediction_output.path + \".gzip\", index=False, compression=\"gzip\")\n    test_prediction_bq = test_prediction[eval_pred_cols]\n\n\n    eval_pred_table_schema = [\n        bigquery.SchemaField(\"subclass_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"mds_fam_id\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"dept_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"item_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"club_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"unit_price_amt\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"markdown_start_date_dt\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oos_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"num_weeks\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"target\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"predicted_sales\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_pred_table_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(test_prediction_bq, eval_prediction_output_path, job_config=job_config)\n    job.result()\n\n    cat_description = pd.read_csv(f\"{pipeline_root}/markdown_data/cat_nbr_description_map.csv\")\n    cat_description = cat_description.rename({'category_nbr': 'dept_nbr'}, axis='columns')\n    pdf_merged_pred_cat = test_prediction.merge(cat_description, on=\"dept_nbr\", how=\"left\")\n\n    category_error = eval_obj.compute_category_error(test_prediction).merge(cat_description, on=\"dept_nbr\", how=\"left\")\n    category_error['run_date'] = today_dt\n    category_error.to_parquet(category_error_output.path + \".gzip\", index=False, compression=\"gzip\")\n    category_results_bq = category_error[cat_results_cols]\n    category_error['eval_set_start_date'] = pd.to_datetime(category_error['eval_set_start_date'],\n                                                           format='%Y-%m-%d').dt.strftime('%Y-%m-%d')\n    category_error_dict = category_error.to_dict()\n    model_evaluation_output = namedtuple(\"Outputs\", [\"md_metrics\", \"category_error\"])\n\n\n    eval_cat_results_schema = [\n        bigquery.SchemaField(\"n_samples\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"rmse\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"wmape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"smape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_sample\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oe_value\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_total\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"dept_nbr\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"metric_target\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"eval_set_start_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"description\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_cat_results_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(category_results_bq, eval_cat_output_path, job_config=job_config)\n    job.result()\n\n\n    test_prediction_overall = test_prediction.copy()\n    test_prediction_overall['dept_nbr'] = 0\n    overall_test_results = eval_obj.compute_category_error(test_prediction_overall)\n    overall_test_results['run_date'] = today_dt\n    overall_test_results.to_parquet(overall_error_output.path + \".gzip\", index=False, compression=\"gzip\")\n    overall_results_bq = overall_test_results[overall_results_cols]\n\n    eval_overall_results_schema = [\n        bigquery.SchemaField(\"n_samples\", \"INTEGER\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"rmse\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"wmape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"smape\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_sample\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oe_value\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"oep_total\", \"FLOAT\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"metric_target\", \"STRING\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"eval_set_start_date\", \"DATE\", mode=\"NULLABLE\"),\n        bigquery.SchemaField(\"run_date\", \"STRING\", mode=\"NULLABLE\"),\n        ]\n    # create bq client\n    client = bigquery.Client(project_id)\n    # job config\n    job_config = bigquery.LoadJobConfig(\n        schema=eval_overall_results_schema,\n        write_disposition=\"WRITE_APPEND\",\n    )  \n    job = client.load_table_from_dataframe(overall_results_bq, eval_overall_output_path, job_config=job_config)\n    job.result()\n\n    return model_evaluation_output(md_metrics, category_error_dict)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 32,
+                            "memoryLimit": 64
+                        }
+                    }
+                },
+                "exec-model-test": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "model_test"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef model_test(\n    pipeline_root: str,\n    test_data_input: Input[Dataset], \n    markdown_model_input: Input[Model],\n    covariates: List[str], #COVARIATES\n    train_val_metrics: Dict,\n    latest_md_metrics_path_input: str,\n    md_metrics_output: Output[Metrics],\n    test_prediction_output: Output[Dataset],\n    merged_pred_cat_output: Output[Dataset],\n    category_error_output: Output[Dataset],\n) -> NamedTuple(\"Outputs\", [(\"md_metrics\", Dict), (\"category_error\", Dict)]\n):\n    import pandas as pd\n    import md_utils\n    import joblib\n    from google.cloud import storage\n    from collections import namedtuple\n    import json\n\n\n    test_data = pd.read_parquet(test_data_input.path+\".gzip\")\n    print(\"test_data size:\", test_data.shape)\n    # preprocessing_obj = md_utils.Preprocessing()\n    # list_col_dt_convers = [\"date\", \"md_overall_start_date\", \"md_overall_end_date\"]\n    # test_data = preprocessing_obj.typecast_datetime(data=test_data, cols=list_col_dt_convers)\n    # float_col_list = [\"selling_price\", \"pre_md_selling_price\"] + [f\"week_{i}_discount\" for i in range(1, 9)]\n    # test_data = preprocessing_obj.typecast_float(test_data, float_col_list)\n    # \n    # test_data.rename(columns = {\"item_nbr\":\"mds_fam_id\"}, inplace = True)\n    # \n    eval_obj = md_utils.EvaluationLayer()\n    # full_md_test_data = eval_obj.full_markdown_data(test_data) # Fetch Markdown Data\n    # print(\"full_md_test_data size:\", full_md_test_data.shape)\n    # modified_md_test_data = preprocessing_obj.change_dtypes(full_md_test_data, ['department_nbr', 'sub_dept_nbr']) # full_md_test_data\n    # print(\"modified_md_test_data size:\", modified_md_test_data.shape)\n    # features_md_test_data = preprocessing_obj.add_features(modified_md_test_data) # modified_md_test_data\n    # print(\"features_md_test_data size:\", features_md_test_data.shape)\n    # bucketed_md_test_data = preprocessing_obj.bucketing_avg_sales(features_md_test_data) # features_md_test_data\n    # print(\"bucketed_md_test_data size:\", bucketed_md_test_data.shape)\n\n    with open(markdown_model_input.path, \"rb\") as file:  \n        pipeline = joblib.load(file)\n\n    test_prediction = eval_obj.sale_prediction(data=test_data, pipeline=pipeline, covariates=covariates) # bucketed_md_test_data\n    test_metrics, test_prediction = eval_obj.test_metrics(data=test_prediction)\n\n    print(\"test_prediction size:\", test_prediction.shape)\n    print(\"test_metrics:\", test_metrics)\n\n    md_metrics = eval_obj.combine_hmaps(train_val_metrics, test_metrics)\n    print(\"md_metrics:\", md_metrics) \n\n    print(\"Saved the md_metrics\")\n    blob = storage.blob.Blob.from_string(latest_md_metrics_path_input, client=storage.Client())\n    blob.upload_from_string(data=json.dumps(md_metrics, indent=4), content_type=\"application/json\")\n\n    for metric_key, metric_val in md_metrics.items():\n        md_metrics_output.log_metric(metric_key, str(metric_val))\n\n    test_prediction[\"dept_nbr\"] = test_prediction[\"department_nbr\"].astype(int)\n    test_prediction.to_parquet(test_prediction_output.path+\".gzip\", index=False, compression=\"gzip\")\n\n    cat_description = pd.read_csv(f\"{pipeline_root}/markdown_data/cat_nbr_description_map.csv\")\n    cat_description=cat_description.rename({'category_nbr':'dept_nbr'},axis='columns')\n    pdf_merged_pred_cat = test_prediction.merge(cat_description, on=\"dept_nbr\", how=\"left\")\n\n    category_error=eval_obj.compute_category_error(test_prediction).merge(cat_description, on=\"dept_nbr\", how=\"left\")                  \n    pdf_merged_pred_cat.to_parquet(merged_pred_cat_output.path+\".gzip\", index=False, compression=\"gzip\")                             \n    category_error.to_parquet(category_error_output.path+\".gzip\", index=False, compression=\"gzip\")\n    category_error['eval_set_start_date']=pd.to_datetime(category_error['eval_set_start_date'], format = '%Y-%m-%d').dt.strftime('%Y-%m-%d')\n    category_error_dict =category_error.to_dict()\n    model_test_output = namedtuple(\"Outputs\", [\"md_metrics\", \"category_error\"])\n    return model_test_output(md_metrics, category_error_dict)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 96,
+                            "memoryLimit": 624
+                        }
+                    }
+                },
+                "exec-model-versioning-feedback": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "model_versioning_feedback"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef model_versioning_feedback(\n    model_registry_name: str, #model_ver_sqlquery_input\n    mlflow_exp_name: str, # mlflow_exp_name\n    # pipeline_root: str,\n) -> int:\n    import pandas as pd\n    import mlflow\n    from mlflow.tracking.client import MlflowClient\n    import md_utils\n\n    # Initialize client\n    c = MlflowClient()\n\n    mlflow.set_experiment(mlflow_exp_name)\n\n    try:\n        last_model_version = c.get_latest_versions(model_registry_name, stages=[\"Production\"])[0].version\n    except:\n        print(\"last model version of Production model stage is not found\")\n        last_model_version = 0\n\n    print(\"last_model_version:\", last_model_version)\n    return int(last_model_version)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-mlflow-dev:latest"
+                    }
+                },
+                "exec-post-analysis": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "post_analysis"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef post_analysis(\n    project_id: str,\n    pipeline_root: str, \n    test_data_input: Input[Dataset],\n    markdown_model_input: Input[Model],\n    elasticity_output_path: str,\n    output_importance_image: OutputPath(),\n    output_curve_image: OutputPath()\n):\n    \"\"\"Register the NewItem model to MLFlow.\n    Args:\n        markdown_model_input: Markdown model saved in GCS bucket.\n        covariates: \n    Returns:\n    \"\"\"\n    from google.cloud import storage\n    import os\n    import pandas as pd\n    import numpy as np\n    import argparse\n    import md_utils\n    import pickle\n    from collections import namedtuple\n    import joblib\n    import json\n    from google.cloud import bigquery\n\n    client = bigquery.Client(project=project_id)\n    test_data = pd.read_parquet(test_data_input.path + \".gzip\")\n    elasticity=md_utils.ElasticityTest(num_weeks=1,specified_input_pd=test_data, inventory_modifier=1)\n    elasticity.xgb_model_loader(markdown_model_input.path)\n    elasticity.plot_model_importance(output_importance_image)\n    elasticity_data=elasticity.create_elasticity_matrix()\n    predicted_data=elasticity.sale_prediction(elasticity_data,\"xgb\")\n    elasticity.plot_elasticity_curve(predicted_data,output_curve_image)\n    elasticity.plot_metrics(\"xgb\")\n\n    client = bigquery.Client(project_id)\n    # Define table name, in format dataset.table_name\n    job_config = bigquery.job.LoadJobConfig()\n    job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE\n\n    # Load data to BQ\n    job = client.load_table_from_dataframe(predicted_data, elasticity_output_path, job_config)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 64,
+                            "memoryLimit": 256
+                        }
+                    }
+                },
+                "exec-premodeling-processing": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "premodeling_processing"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef premodeling_processing(\n        covariates: List[str],  # COVARIATES\n        constrained_features: List[str],  # CONSTRAINED_FEATURES\n) -> List[int]:\n\n    return [1 if col in constrained_features else 0 for col in covariates]\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 32,
+                            "memoryLimit": 32
+                        }
+                    }
+                },
+                "exec-run-configurations": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "run_configurations"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef run_configurations(\n    config_hashmap: Dict, \n    last_md_ver_input: int,\n    category_universe_value_input: str, \n) -> NamedTuple(\"Outputs\", [(\"run_config_hmap_output\", Dict)]\n):\n    import datetime\n    import md_utils\n    from collections import namedtuple\n\n    last_model_ver = last_md_ver_input\n\n    config_obj = md_utils.Config()\n    config_hashmap = config_obj.run_config(last_md_ver=last_model_ver, config_hmap=config_hashmap)\n\n    run_config_output = namedtuple(\"Outputs\", [\"run_config_hmap_output\"])\n    return run_config_output(config_hashmap)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest"
+                    }
+                },
+                "exec-train-eval-markdown-model": {
+                    "container": {
+                        "args": [
+                            "--executor_input",
+                            "{{$}}",
+                            "--function_to_execute",
+                            "train_eval_markdown_model"
+                        ],
+                        "command": [
+                            "sh",
+                            "-c",
+                            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.15' && \"$0\" \"$@\"\n",
+                            "sh",
+                            "-ec",
+                            "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+                            "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_eval_markdown_model(\n    param_flag: str, #PARAM_TUNING\n    manual_params: Dict, #TRAIN_PARAMS\n    train_input: Input[Dataset],\n    val_input: Input[Dataset],\n    covariates: List[str], #COVARIATES\n    response: List[str], #RESPONSE\n    rounds: int, #ROUNDS\n    tolerance: float, #TOLERANCE\n    constraints: List[int],\n    encode_features: List[str],\n    latest_md_params_path_input: str,\n    markdown_model_output: Output[Model],\n) -> NamedTuple(\"Outputs\", [(\"train_val_metrics\", Dict)]):\n    import pandas as pd\n    from google.cloud import storage\n    import json\n    from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error\n    import md_utils\n    import joblib\n    from collections import namedtuple\n    train = pd.read_parquet(train_input.path+\".gzip\")\n    val = pd.read_parquet(val_input.path+\".gzip\")\n\n    config_obj = md_utils.Config()\n    params = config_obj.model_params(param_flag=param_flag,  manual_params=manual_params, latest_md_params_path=latest_md_params_path_input)\n\n    training_obj = md_utils.ModelTraining()\n\n    try:\n        pipeline = training_obj.fit_model(\n            train=train, \n            val=val, \n            covariates=covariates, \n            response=response, \n            rounds=rounds, \n            tolerance=tolerance, \n            monotone_constraints=constraints,\n            category_cols=encode_features,\n            model_params=params\n        )\n    except Exception as e: print(e)\n\n    with open(markdown_model_output.path, \"wb\") as file:  \n        joblib.dump(pipeline, file)\n\n\n    train_val_metrics = training_obj.train_val_metrics(\n        pipeline=pipeline, \n        train=train, \n        val=val, \n        covariates=covariates, \n        response=response\n    )\n\n    train_eval_markdown_model_output = namedtuple(\"Outputs\", [\"train_val_metrics\"])\n    return train_eval_markdown_model_output(train_val_metrics)\n\n"
+                        ],
+                        "image": "gcr.io/wmt-mlp-p-price-npd-pricing/markdown-training-pipeline-dev:latest",
+                        "resources": {
+                            "cpuLimit": 96,
+                            "memoryLimit": 624
+                        }
+                    }
+                }
+            }
+        },
+        "pipelineInfo": {
+            "name": "inclub-md-pipeline-dev"
+        },
+        "root": {
+            "dag": {
+                "outputs": {
+                    "artifacts": {
+                        "model-evaluation-2-md_metrics_output": {
+                            "artifactSelectors": [
+                                {
+                                    "outputArtifactKey": "md_metrics_output",
+                                    "producerSubtask": "model-evaluation-2"
+                                }
+                            ]
+                        },
+                        "model-evaluation-md_metrics_output": {
+                            "artifactSelectors": [
+                                {
+                                    "outputArtifactKey": "md_metrics_output",
+                                    "producerSubtask": "model-evaluation"
+                                }
+                            ]
+                        },
+                        "model-test-md_metrics_output": {
+                            "artifactSelectors": [
+                                {
+                                    "outputArtifactKey": "md_metrics_output",
+                                    "producerSubtask": "model-test"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "tasks": {
+                    "element-model-registry": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-element-model-registry"
+                        },
+                        "dependentTasks": [
+                            "model-evaluation",
+                            "model-evaluation-2",
+                            "model-test",
+                            "run-configurations",
+                            "train-eval-markdown-model"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "markdown_model_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "markdown_model_output",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "category_error_input": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "category_error",
+                                        "producerTask": "model-test"
+                                    }
+                                },
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                },
+                                "data_fraction": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "doubleValue": 0.1
+                                        }
+                                    }
+                                },
+                                "dynamic_config_key": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dynamic_config"
+                                        }
+                                    }
+                                },
+                                "encode_features": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"week\", \"month\"]"
+                                        }
+                                    }
+                                },
+                                "md_metrics_input_logs": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "md_metrics",
+                                        "producerTask": "model-evaluation"
+                                    }
+                                },
+                                "md_metrics_input_manual": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "md_metrics",
+                                        "producerTask": "model-evaluation-2"
+                                    }
+                                },
+                                "mlflow_exp_name": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "inclub_markdown_dev"
+                                        }
+                                    }
+                                },
+                                "model_registry_name": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "inclub_markdown_dev"
+                                        }
+                                    }
+                                },
+                                "param_tuning": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "manual"
+                                        }
+                                    }
+                                },
+                                "pipeline_name": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "inclub-md-pipeline-dev"
+                                        }
+                                    }
+                                },
+                                "response": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"target\"]"
+                                        }
+                                    }
+                                },
+                                "rounds": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "intValue": "20"
+                                        }
+                                    }
+                                },
+                                "run_configurations_input": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "run_config_hmap_output",
+                                        "producerTask": "run-configurations"
+                                    }
+                                },
+                                "tolerance": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "doubleValue": 0.1
+                                        }
+                                    }
+                                },
+                                "train_params": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "{\"n_estimators\": 600, \"max_depth\": 20, \"colsample_bytree\": 0.6, \"subsample\": 0.8, \"lambda\": 5.1, \"n_jobs\": 100, \"learning_rate\": 0.04, \"eval_metric\": \"mean_absolute_error\"}"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "element-model-registry"
+                        }
+                    },
+                    "get-prepared-data": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-get-prepared-data"
+                        },
+                        "inputs": {
+                            "parameters": {
+                                "data_storage_gcs_uri": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-data-storage-nonprod"
+                                        }
+                                    }
+                                },
+                                "ds_eval_table_name_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev-sams-ds-featurestore.markdown.DS_logs_eval"
+                                        }
+                                    }
+                                },
+                                "env": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev"
+                                        }
+                                    }
+                                },
+                                "manual_eval_table_name_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev-sams-ds-featurestore.markdown.DS_manual_eval"
+                                        }
+                                    }
+                                },
+                                "pipeline_root": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod"
+                                        }
+                                    }
+                                },
+                                "project_id": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing"
+                                        }
+                                    }
+                                },
+                                "test_table_name_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev-sams-ds-featurestore.markdown.inclub_test_features"
+                                        }
+                                    }
+                                },
+                                "train_table_name_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev-sams-ds-featurestore.markdown.inclub_train_features"
+                                        }
+                                    }
+                                },
+                                "val_table_name_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "dev-sams-ds-featurestore.markdown.inclub_val_features"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "get-prepared-data"
+                        }
+                    },
+                    "model-evaluation": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-model-evaluation"
+                        },
+                        "dependentTasks": [
+                            "get-prepared-data",
+                            "model-test",
+                            "train-eval-markdown-model"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "markdown_model_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "markdown_model_output",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                },
+                                "test_data_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "ds_eval_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                },
+                                "eval_cat_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_cat_results_logs"
+                                        }
+                                    }
+                                },
+                                "eval_overall_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_overall_results_logs"
+                                        }
+                                    }
+                                },
+                                "eval_prediction_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_pred_logs"
+                                        }
+                                    }
+                                },
+                                "latest_md_metrics_path_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev_eval_logs"
+                                        }
+                                    }
+                                },
+                                "pipeline_root": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod"
+                                        }
+                                    }
+                                },
+                                "project_id": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing"
+                                        }
+                                    }
+                                },
+                                "train_val_test_metrics": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "md_metrics",
+                                        "producerTask": "model-test"
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "model-evaluation"
+                        }
+                    },
+                    "model-evaluation-2": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-model-evaluation-2"
+                        },
+                        "dependentTasks": [
+                            "get-prepared-data",
+                            "model-test",
+                            "train-eval-markdown-model"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "markdown_model_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "markdown_model_output",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                },
+                                "test_data_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "manual_eval_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                },
+                                "eval_cat_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_cat_results_manual"
+                                        }
+                                    }
+                                },
+                                "eval_overall_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_overall_results_manual"
+                                        }
+                                    }
+                                },
+                                "eval_prediction_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.inclub_eval_pred_manual"
+                                        }
+                                    }
+                                },
+                                "latest_md_metrics_path_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev_eval_manual"
+                                        }
+                                    }
+                                },
+                                "pipeline_root": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod"
+                                        }
+                                    }
+                                },
+                                "project_id": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing"
+                                        }
+                                    }
+                                },
+                                "train_val_test_metrics": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "md_metrics",
+                                        "producerTask": "model-test"
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "model-evaluation-2"
+                        }
+                    },
+                    "model-test": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-model-test"
+                        },
+                        "dependentTasks": [
+                            "get-prepared-data",
+                            "train-eval-markdown-model"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "markdown_model_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "markdown_model_output",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                },
+                                "test_data_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "test_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                },
+                                "latest_md_metrics_path_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_metrics_dev"
+                                        }
+                                    }
+                                },
+                                "pipeline_root": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod"
+                                        }
+                                    }
+                                },
+                                "train_val_metrics": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "train_val_metrics",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "model-test"
+                        }
+                    },
+                    "model-versioning-feedback": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-model-versioning-feedback"
+                        },
+                        "inputs": {
+                            "parameters": {
+                                "mlflow_exp_name": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "inclub_markdown_dev"
+                                        }
+                                    }
+                                },
+                                "model_registry_name": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "inclub_markdown_dev"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "model-versioning-feedback"
+                        }
+                    },
+                    "post-analysis": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-post-analysis"
+                        },
+                        "dependentTasks": [
+                            "get-prepared-data",
+                            "train-eval-markdown-model"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "markdown_model_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "markdown_model_output",
+                                        "producerTask": "train-eval-markdown-model"
+                                    }
+                                },
+                                "test_data_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "ds_eval_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "elasticity_output_path": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing.markdown.elasticity_table"
+                                        }
+                                    }
+                                },
+                                "pipeline_root": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod"
+                                        }
+                                    }
+                                },
+                                "project_id": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "wmt-mlp-p-price-npd-pricing"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "post-analysis"
+                        }
+                    },
+                    "premodeling-processing": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-premodeling-processing"
+                        },
+                        "inputs": {
+                            "parameters": {
+                                "constrained_features": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"num_weeks\", \"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\"]"
+                                        }
+                                    }
+                                },
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "premodeling-processing"
+                        }
+                    },
+                    "run-configurations": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-run-configurations"
+                        },
+                        "dependentTasks": [
+                            "model-versioning-feedback"
+                        ],
+                        "inputs": {
+                            "parameters": {
+                                "category_universe_value_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98"
+                                        }
+                                    }
+                                },
+                                "config_hashmap": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "{\"MODE\": \"test\", \"DYNAMIC_CONFIG\": true, \"DATA_FRACTION\": 0.1, \"PRODUCTION_RUN\": true, \"RUN_FREQUENCY\": \"monthly\", \"RUN_MLFLOW_EXP\": true, \"CATEGORY_UNIVERSE\": \"1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 29, 31, 32, 33, 34, 36, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 57, 58, 60, 61, 64, 66, 67, 68, 69, 70, 71, 74, 78, 80, 81, 83, 85, 86, 88, 89, 92, 94, 95, 96, 97, 98\"}"
+                                        }
+                                    }
+                                },
+                                "last_md_ver_input": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "Output",
+                                        "producerTask": "model-versioning-feedback"
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "run-configurations"
+                        }
+                    },
+                    "train-eval-markdown-model": {
+                        "cachingOptions": {
+                            "enableCache": true
+                        },
+                        "componentRef": {
+                            "name": "comp-train-eval-markdown-model"
+                        },
+                        "dependentTasks": [
+                            "get-prepared-data",
+                            "premodeling-processing"
+                        ],
+                        "inputs": {
+                            "artifacts": {
+                                "train_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "train_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                },
+                                "val_input": {
+                                    "taskOutputArtifact": {
+                                        "outputArtifactKey": "val_data_output",
+                                        "producerTask": "get-prepared-data"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "constraints": {
+                                    "taskOutputParameter": {
+                                        "outputParameterKey": "Output",
+                                        "producerTask": "premodeling-processing"
+                                    }
+                                },
+                                "covariates": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"discount_1_week_next_nbr\", \"discount_2_week_next_nbr\", \"discount_3_week_next_nbr\", \"discount_4_week_next_nbr\", \"discount_5_week_next_nbr\", \"discount_6_week_next_nbr\", \"discount_7_week_next_nbr\", \"discount_8_week_next_nbr\", \"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"median_price_6_month_last_amt\", \"price_1_week_back_median_price_6_month_last_nbr\", \"price_2_week_back_median_price_6_month_last_nbr\", \"price_3_week_back_median_price_6_month_last_nbr\", \"price_4_week_back_median_price_6_month_last_nbr\", \"avg_weekly_unit_sold_1_month_back_cnt\", \"day_on_shelf_cnt\", \"num_weeks\", \"unit_sold_1_week_back_cnt\", \"unit_sold_2_week_back_cnt\", \"unit_sold_3_week_back_cnt\", \"unit_sold_4_week_back_cnt\", \"month\", \"week\", \"avg_unit_sold_subcategory_52_week_back_cnt\", \"change_unit_sold_subcategory_same_week_1_year_back_cnt\", \"avg_unit_sold_dept_52_week_back_cnt\", \"avg_unit_sold_52_week_back_cnt\", \"change_unit_sold_1_2_week_back_cnt\", \"change_unit_sold_2_3_week_back_cnt\", \"change_unit_sold_3_4_week_back_cnt\", \"subclass_unit_sold_same_week_1_year_back_nbr\", \"week_inventory_expected_to_last_cnt\"]"
+                                        }
+                                    }
+                                },
+                                "encode_features": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"club_nbr\", \"department_nbr\", \"subclass_nbr\", \"week\", \"month\"]"
+                                        }
+                                    }
+                                },
+                                "latest_md_params_path_input": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "gs://md-training-pipeline-bucket-nonprod/inclub/latest_markdown_params_dev"
+                                        }
+                                    }
+                                },
+                                "manual_params": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "{\"n_estimators\": 600, \"max_depth\": 20, \"colsample_bytree\": 0.6, \"subsample\": 0.8, \"lambda\": 5.1, \"n_jobs\": 100, \"learning_rate\": 0.04, \"eval_metric\": \"mean_absolute_error\"}"
+                                        }
+                                    }
+                                },
+                                "param_flag": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "manual"
+                                        }
+                                    }
+                                },
+                                "response": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "stringValue": "[\"target\"]"
+                                        }
+                                    }
+                                },
+                                "rounds": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "intValue": "20"
+                                        }
+                                    }
+                                },
+                                "tolerance": {
+                                    "runtimeValue": {
+                                        "constantValue": {
+                                            "doubleValue": 0.1
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "taskInfo": {
+                            "name": "train-eval-markdown-model"
+                        }
+                    }
+                }
+            },
+            "outputDefinitions": {
+                "artifacts": {
+                    "model-evaluation-2-md_metrics_output": {
+                        "artifactType": {
+                            "schemaTitle": "system.Metrics",
+                            "schemaVersion": "0.0.1"
+                        }
+                    },
+                    "model-evaluation-md_metrics_output": {
+                        "artifactType": {
+                            "schemaTitle": "system.Metrics",
+                            "schemaVersion": "0.0.1"
+                        }
+                    },
+                    "model-test-md_metrics_output": {
+                        "artifactType": {
+                            "schemaTitle": "system.Metrics",
+                            "schemaVersion": "0.0.1"
+                        }
+                    }
+                }
+            }
+        },
+        "schemaVersion": "2.0.0",
+        "sdkVersion": "kfp-1.8.15"
+    },
+    "runtimeConfig": {
+        "gcsOutputDirectory": "gs://md-training-pipeline-bucket-nonprod"
+    }
+}
