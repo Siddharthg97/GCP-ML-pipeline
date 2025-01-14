@@ -14,18 +14,24 @@ To create ML flow pipeline we need containerized applications containing -python
 
 
 1) Import require libraries
-2) create object of argument parser to define input variables
+2) create object of argument parser to define input variables 
 3) Import all required variables from settings.yml configuration
 4) Start defining decorators as wrappers
-5) Each decorator requires python application for which we are using containrized application
-6) create decorator for pipeline, calling all the functions defined in other decorator.
-7) define name variable to execute all the decorators
-8) we need to define the compile
+5) Each decorator requires python application for which we are using containerized application
+6) Pipeline definition - create decorator for pipeline, calling all the functions defined in other decorator.
+7) execution if __name__== main
+8) we need to define the compiler where we provide pipeline name & json containing pipeline definition
+9) create object of pipline job using AI pipeline platform is defined where we pass display name , pipeline root containing pipeline artifacts,
+10) pipline utils is used to pass the pipline json to a location in gcs bucket
+11) run the pipline created.
 
-We have project utils file to call the required functions, within each decorator
+We have project utils/md utils file to call the required functions, within each decorator
 
-Now we have pipeline utils
+Now we have pipeline utils to access the settings .yml , save  pipeline json to gcs bucket
 
+To work on - json specificatio file, model registry.py
+PIPELINE_JSON: "inclub-md-pipeline-dev.json"
+TMP_PIPELINE_JSON = os.path.join("/tmp", PIPELINE_JSON)
 ### Kubeflow components
 from kfp.v2 import compiler 
 
@@ -67,7 +73,205 @@ compiler.Compiler().compile(
     ).store_pipeline()
     
     pipeline_job.submit(service_account=SERVICE_ACCOUNT, network=NETWORK)
-**Notes** 
+------------------------------------------------------------------------------------
+step-2 Extracting all the variables/parameters from settings.yml file specifically for - model condition / run configuration parameters , images,\
+training pipeline parameters  ,train & output data parameters,  training parameters & hyper patameter tuning
+
+------------------------------------------------------------------------------------
+Typical Usage of kfp.v2.compiler
+Here’s how to use it in a basic workflow:
+
+Installation
+Ensure you have the Kubeflow Pipelines SDK installed:
+
+bash
+Copy code
+pip install kfp
+Pipeline Definition
+Define your pipeline using the @dsl.pipeline decorator from kfp.v2.dsl:
+
+python
+Copy code
+from kfp.v2 import dsl
+
+@dsl.pipeline(
+    name="my-sample-pipeline",
+    description="A sample pipeline to demonstrate KFP compilation."
+)
+def my_pipeline(
+    input_data: str,
+    num_steps: int
+):
+    # Pipeline tasks can be added here
+    pass
+Compilation
+Use kfp.v2.compiler.Compiler to compile the pipeline into a YAML job specification:
+
+python
+Copy code
+from kfp.v2 import compiler
+
+# Define the path to save the compiled pipeline
+pipeline_job_path = "my_pipeline_job.json"
+
+# Compile the pipeline
+compiler.Compiler().compile(
+    pipeline_func=my_pipeline,
+    package_path=pipeline_job_path
+)
+
+print(f"Pipeline job spec saved to: {pipeline_job_path}")
+Key Parameters of Compiler.compile()
+pipeline_func:
+
+The Python function representing the pipeline.
+Decorated with @dsl.pipeline.
+package_path:
+
+The file path where the compiled YAML/JSON specification will be saved.
+Typically ends in .json.
+type_check (optional):
+
+Set to True or False to enable/disable type-checking for pipeline inputs and outputs.
+Running the Compiled Pipeline
+Once you have the compiled pipeline specification (e.g., my_pipeline_job.json), you can submit it to a Kubeflow Pipelines-enabled environment using the kfp.Client or Google Cloud's AI Platform.
+
+Example with Google Cloud AI Platform:
+
+python
+Copy code
+from google.cloud import aiplatform
+
+aiplatform.init(project="my-project", location="us-central1")
+
+pipeline_job = aiplatform.PipelineJob(
+    display_name="my-sample-pipeline",
+    template_path="my_pipeline_job.json",
+    parameter_values={
+        "input_data": "gs://my-bucket/data.csv",
+        "num_steps": 10
+    },
+    pipeline_root="gs://my-bucket/pipeline-root/"
+)
+
+pipeline_job.run()
+-----------------------------------------------------------------
+**Notes**
+# step-2 
+Extracting all the variables/parameters from settings.yml file specifically for -  model condition /  ,
+run configuration parameters - mentioned below
+training pipeline parameters  - pipeline root, pipeline json,gcs uri, 
+train & output data parameters - paths of eval datasets, input train , val datasets configurations
+mlflow parameters - MLFlow Model Registry name and experiment name ,images,
+training parameters & hyper patameter tuning
+
+CONFIG_HASHMAP = {
+    "MODE": MODE,
+    "DYNAMIC_CONFIG": DYNAMIC_CONFIG,
+    "DATA_FRACTION": DATA_FRACTION,
+    "PRODUCTION_RUN": PRODUCTION_RUN,
+    "RUN_FREQUENCY": RUN_FREQUENCY,
+    "RUN_MLFLOW_EXP": RUN_MLFLOW_EXP,
+    "CATEGORY_UNIVERSE": CATEGORY_UNIVERSE,
+}
+
+class Config:   - latest markdown version, test horizon, run frequency, 
+    def __init__(self):
+        pass
+    def run_config(self, last_md_ver, config_hmap):
+        """Conditionally run the configurations.
+        Args:
+            last_md_ver: Markdown model version.
+            config_hmap: configuration hashmap. 
+        Returns:
+            Configuration hashmap. 
+        """
+        import datetime
+        from collections import namedtuple
+        from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
+        
+        # Set Training and Testing Dates Dynamically Based on the Run Date
+        if config_hmap["DYNAMIC_CONFIG"]: 
+            # Run Version
+            run_version = str(last_md_ver + 1)
+            description = f'base model version {run_version}'
+            
+            today = datetime.date.today()
+            if config_hmap["RUN_FREQUENCY"] == 'weekly':
+                # Keeing Status Quo for Weekly Runs
+                train_horizon = 78 # in weeks
+                test_horizon = 26
+                last_monday = today - datetime.timedelta(today.weekday())
+                # Adding 14 Days Buffer to Allow Tables to Get Updated
+                test_start_date = last_monday - datetime.timedelta(days=14) - datetime.timedelta(weeks=test_horizon) 
+            elif config_hmap["RUN_FREQUENCY"] == 'monthly':
+                train_horizon = 78 # 1.5 years of Historical Data
+                test_horizon = 10
+                last_monday = today - datetime.timedelta(today.weekday()) 
+                # If Day Number of the Last Monday is in First Half of Month take Test Data till 1st
+                if last_monday.day < 15: 
+                    test_start_date = last_monday.replace(day=1) - datetime.timedelta(weeks=test_horizon)
+                else:
+                    test_start_date = last_monday.replace(day=15) - datetime.timedelta(weeks=test_horizon)
+                    
+            train_end_date = test_start_date - datetime.timedelta(days=1)
+            
+            # Data Parameters
+            train_period = {
+                'end_date': (str(train_end_date),), 
+                'horizon': (train_horizon,) # Lookback for train data (in weeks)
+            }
+            test_period = {
+                'start_date': (str(test_start_date),),
+                'horizon': (test_horizon,) # Lookforward for test data (in weeks)
+            }
+            print(f'Train Period - {train_period}')
+            print(f'Test Period - {test_period}')
+        else:
+            run_version = str(last_md_ver + 1)
+            description = f'base model version {run_version}'
+            # Data Parameters
+            train_period = {
+                'end_date': ('2022-09-30',), 
+                'horizon': (26,) # Lookback for train data (in weeks)
+            }
+            test_period = {
+                'start_date': ('2022-10-01',),
+                'horizon': (8,) # Lookforward for test data (in weeks)
+            }
+            print(f'Train Period - {train_period}')
+            
+        category_universe = tuple(MarkdownUtils(config_hmap["CATEGORY_UNIVERSE"]).category_universe)
+        
+        
+        print(f'Current Run Version - {run_version}')
+        
+        run_config = {
+            "run_version": run_version,
+            "description": description,
+            "category_universe": category_universe,
+        }
+        
+        if config_hmap["DYNAMIC_CONFIG"]:
+            run_config["dynamic_config"] = {
+                "today": today.strftime('%Y-%m-%d'), 
+                "run_frequency": config_hmap["RUN_FREQUENCY"], 
+                "train_horizon": train_horizon, 
+                "test_horizon": test_horizon, 
+                "last_monday": last_monday.strftime('%Y-%m-%d'), 
+                "test_start_date": test_start_date.strftime('%Y-%m-%d'),
+                "train_end_date": train_end_date.strftime('%Y-%m-%d'),
+                "train_period": train_period,
+                "test_period": test_period,
+            }
+        else:
+            run_config["non_dynamic_config"] = {
+                "train_period": train_period,
+                "test_period": test_period,
+            }
+            
+        return run_config 
+
 ## Environment variables
 https://www.datacamp.com/tutorial/python-environment-variables 
 
