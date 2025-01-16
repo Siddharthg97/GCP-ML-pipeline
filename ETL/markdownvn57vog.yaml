@@ -1,0 +1,116 @@
+config:
+  configBucket: dataproc-staging-us-central1-679005325826-cjzjpcpm
+  endpointConfig:
+    enableHttpPortAccess: true
+    httpPorts:
+      HDFS NameNode: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/hdfs/dfshealth.html
+      Jupyter: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/gateway/default/jupyter/
+      JupyterLab: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/gateway/default/jupyter/lab/
+      MapReduce Job History: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/jobhistory/
+      Spark History Server: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/sparkhistory/
+      Tez: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/apphistory/tez-ui/
+      YARN Application Timeline: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/apphistory/
+      YARN ResourceManager: https://753ndzwdqveyzlnrn37vpjpry4-dot-us-central1.dataproc.googleusercontent.com/yarn/
+  gceClusterConfig:
+    internalIpOnly: true
+    metadata:
+      spark-bigquery-connector-version: 0.32.2
+    serviceAccount: svc-price-npd-pricing-admin@wmt-mlp-p-price-npd-pricing.iam.gserviceaccount.com
+    serviceAccountScopes:
+    - https://www.googleapis.com/auth/cloud-platform
+    - https://www.googleapis.com/auth/cloud.useraccounts.readonly
+    - https://www.googleapis.com/auth/devstorage.read_write
+    - https://www.googleapis.com/auth/logging.write
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+      enableVtpm: true
+    subnetworkUri: https://www.googleapis.com/compute/v1/projects/shared-vpc-admin/regions/us-central1/subnetworks/prod-us-central1-01
+    zoneUri: https://www.googleapis.com/compute/v1/projects/wmt-mlp-p-price-npd-pricing/zones/us-central1-a
+  initializationActions:
+  - executableFile: gs://mle-dataproc-artifacts/mle-dataproc-connector.sh
+    executionTimeout: 600s
+  lifecycleConfig:
+    idleDeleteTtl: 1200s
+  masterConfig:
+    diskConfig:
+      bootDiskSizeGb: 1024
+      bootDiskType: pd-standard
+    imageUri: https://www.googleapis.com/compute/v1/projects/cloud-dataproc/global/images/dataproc-2-1-deb11-20240926-165100-rc01
+    machineTypeUri: https://www.googleapis.com/compute/v1/projects/wmt-mlp-p-price-npd-pricing/zones/us-central1-a/machineTypes/n1-standard-96
+    minCpuPlatform: AUTOMATIC
+    numInstances: 1
+    preemptibility: NON_PREEMPTIBLE
+  softwareConfig:
+    imageVersion: 2.1.69-debian11
+    optionalComponents:
+    - JUPYTER
+    properties:
+      capacity-scheduler:yarn.scheduler.capacity.root.default.ordering-policy: fair
+      core:fs.gs.block.size: '134217728'
+      core:fs.gs.metadata.cache.enable: 'false'
+      core:hadoop.ssl.enabled.protocols: TLSv1,TLSv1.1,TLSv1.2
+      dataproc:pip.packages: ibis-framework[bigquery]==7.1.0
+      distcp:mapreduce.map.java.opts: -Xmx768m
+      distcp:mapreduce.map.memory.mb: '1024'
+      distcp:mapreduce.reduce.java.opts: -Xmx768m
+      distcp:mapreduce.reduce.memory.mb: '1024'
+      hadoop-env:HADOOP_DATANODE_OPTS: -Xmx512m
+      hdfs:dfs.datanode.address: 0.0.0.0:9866
+      hdfs:dfs.datanode.http.address: 0.0.0.0:9864
+      hdfs:dfs.datanode.https.address: 0.0.0.0:9865
+      hdfs:dfs.datanode.ipc.address: 0.0.0.0:9867
+      hdfs:dfs.namenode.handler.count: '40'
+      hdfs:dfs.namenode.http-address: 0.0.0.0:9870
+      hdfs:dfs.namenode.https-address: 0.0.0.0:9871
+      hdfs:dfs.namenode.secondary.http-address: 0.0.0.0:9868
+      hdfs:dfs.namenode.secondary.https-address: 0.0.0.0:9869
+      hdfs:dfs.namenode.service.handler.count: '20'
+      mapred-env:HADOOP_JOB_HISTORYSERVER_HEAPSIZE: '4000'
+      mapred:mapreduce.job.maps: '1149'
+      mapred:mapreduce.job.reduce.slowstart.completedmaps: '0.95'
+      mapred:mapreduce.job.reduces: '383'
+      mapred:mapreduce.jobhistory.recovery.store.class: org.apache.hadoop.mapreduce.v2.hs.HistoryServerLeveldbStateStoreService
+      mapred:mapreduce.map.cpu.vcores: '1'
+      mapred:mapreduce.map.java.opts: -Xmx3028m
+      mapred:mapreduce.map.memory.mb: '3785'
+      mapred:mapreduce.reduce.cpu.vcores: '1'
+      mapred:mapreduce.reduce.java.opts: -Xmx3028m
+      mapred:mapreduce.reduce.memory.mb: '3785'
+      mapred:mapreduce.task.io.sort.mb: '256'
+      mapred:yarn.app.mapreduce.am.command-opts: -Xmx3028m
+      mapred:yarn.app.mapreduce.am.resource.cpu-vcores: '1'
+      mapred:yarn.app.mapreduce.am.resource.mb: '3785'
+      spark-env:SPARK_DAEMON_MEMORY: 4000m
+      spark:spark.driver.maxResultSize: 46080m
+      spark:spark.driver.memory: 92160m
+      spark:spark.executor.cores: '8'
+      spark:spark.executor.instances: '2'
+      spark:spark.executor.memory: 27528m
+      spark:spark.executorEnv.OPENBLAS_NUM_THREADS: '1'
+      spark:spark.plugins.defaultList: com.google.cloud.dataproc.DataprocSparkPlugin
+      spark:spark.scheduler.mode: FAIR
+      spark:spark.sql.cbo.enabled: 'true'
+      spark:spark.sql.optimizer.runtime.bloomFilter.join.pattern.enabled: 'true'
+      spark:spark.ui.port: '0'
+      spark:spark.yarn.am.memory: 640m
+      yarn-env:YARN_NODEMANAGER_HEAPSIZE: '4000'
+      yarn-env:YARN_RESOURCEMANAGER_HEAPSIZE: '4000'
+      yarn-env:YARN_TIMELINESERVER_HEAPSIZE: '4000'
+      yarn:yarn.nodemanager.address: 0.0.0.0:8026
+      yarn:yarn.nodemanager.resource.cpu-vcores: '96'
+      yarn:yarn.nodemanager.resource.memory-mb: '363360'
+      yarn:yarn.resourcemanager.decommissioning-nodes-watcher.decommission-if-no-shuffle-data: 'true'
+      yarn:yarn.resourcemanager.nodemanager-graceful-decommission-timeout-secs: '86400'
+      yarn:yarn.scheduler.maximum-allocation-mb: '363360'
+      yarn:yarn.scheduler.minimum-allocation-mb: '1'
+  tempBucket: dataproc-temp-us-central1-679005325826-jtatllqu
+  workerConfig:
+    diskConfig:
+      bootDiskSizeGb: 1024
+      bootDiskType: pd-standard
+    imageUri: https://www.googleapis.com/compute/v1/projects/cloud-dataproc/global/images/dataproc-2-1-deb11-20240926-165100-rc01
+    machineTypeUri: https://www.googleapis.com/compute/v1/projects/wmt-mlp-p-price-npd-pricing/zones/us-central1-a/machineTypes/n1-standard-96
+    minCpuPlatform: AUTOMATIC
+    numInstances: 4
+    preemptibility: NON_PREEMPTIBLE
