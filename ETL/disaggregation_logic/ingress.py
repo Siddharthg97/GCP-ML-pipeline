@@ -51,14 +51,14 @@ if __name__ == '__main__':
     MDSE_INV_DLY = "prod-sams-cdp.US_SAMS_PRODUCT360_CDP_VM.MDSE_INVENTORY_DLY"
     SCAN = "wmt-edw-prod.US_WC_MB_VM.SCANX"
 
-
+    # define ingress features
     ingress_features = f"""
         SELECT scan_id, unit_qty,visit_nbr,visit_date
         FROM {SCAN}
         WHERE visit_date>='{CUT_OFF_DATE_START}' AND visit_date<='{CUT_OFF_DATE_END}'
         LIMIT 100
     """
-
+    
     ingress_df = spark.read.format("bigquery").option("query", ingress_features).load()
     json_gx_ingress = gx.dataset.SparkDFDataset(ingress_df)
 
