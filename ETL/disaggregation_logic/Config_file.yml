@@ -1,0 +1,240 @@
+Skip to content
+DataScienceServices
+/
+md-feature-pipeline
+Search or jump to…
+Type / to search
+Code
+Issues
+Pull requests
+4
+Projects
+Wiki
+Security
+Insights
+GitHub Enterprise source code retention policy : https://dx.walmart.com/github/documentation/dx/Source-Code-Retention-Policy-in-GitHub-Dlcg5ticzyn
+
+md-feature-pipeline/config.yml
+@vn56luh
+vn56luh Update config.yml
+Latest commit 5eafeb5 last week
+ History
+ 8 contributors
+@k0e02mh@l0b0d5b@vn56luh@s0h0de5@r0k04w2@t0f0091@mharr22@b0b00lu
+205 lines (201 sloc)  7.99 KB
+ 
+
+team_id: "md-feature-pipeline"
+pipelines:
+  first_level_features:
+    airflow:
+      type: "cron"
+      schedule: "0 7 * * *"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["second_level_features"]
+  second_level_features:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0 google-cloud-secret-manager==2.16.1 protobuf==3.20.3"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    materialization:
+      online: "True"
+      feature_view: ["sams_club_item_daily_v1"]
+      lookback_days: 2
+    dependent_features:
+      features: ["data_sampling"]
+  data_sampling:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+
+  app_cart:
+    airflow:
+      type: "cron"
+      schedule: "0 8 * * *"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["web_cart"]
+  web_cart:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["web_app_cart_and_ratios"]
+  web_app_cart_and_ratios:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0 ibis-framework[bigquery]==7.1.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["dotcom_inventory"]
+  dotcom_inventory:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["dotcom_first_level_features"]
+
+  dotcom_first_level_features:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    dependent_features:
+      features: ["dotcom_second_level_features"]
+  dotcom_second_level_features:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0 google-cloud-secret-manager==2.16.1 protobuf==3.20.3"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+    materialization:
+      online: "True"
+      feature_view: ["sams_dotcom_item_daily_v1"]
+      lookback_days: 2
+    dependent_features:
+      features: ["dotcom_data_sampling"]
+  dotcom_data_sampling:
+    airflow:
+      type: "trigger"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 2
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+  wingman_execution:
+    airflow:
+      type: "cron"
+      schedule: "0 6 * * *"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+  disaggregation_logic:
+    airflow:
+      type: "cron"
+      schedule: "0 7 * * *"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "great-expectations==0.16.8 pyyaml>=6.0 google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]        
+  etl_streamlit_data:
+    airflow:
+      type: "cron"
+      schedule: "30 12 * * *"
+    dataproc:
+      cluster:
+        master_machine_type: "e2-standard-32"
+        worker_machine_type: "e2-standard-32"
+        num_workers: 4
+        pip_packages: "google-cloud-storage==2.5.0 google==3.0.0 gcsfs==2022.11.0"
+        network_uri: "projects/shared-vpc-admin/global/networks/vpcnet-private-svc-access-usc1"
+        subnet_uri: "projects/shared-vpc-admin/regions/us-central1/subnetworks/priv-svc-access-01"
+      jobs:
+        args: [ ]
+owner: "gcp-markdown-price-prod"
+
+
+FooterWalmart
+Walmart avatar
+Walmart
+© 2025 GitHub, Inc.
+Footer navigation
+Help
+Support
+GitHub Enterprise Server 3.12.13
+md-feature-pipeline/config.yml at item_migration · DataScienceServices/md-feature-pipeline
