@@ -97,3 +97,28 @@ Interacting with GCP APIs programmatically.
 Running CI/CD pipelines that interact with GCP resources.
 Using Google Cloud SDK or libraries outside of the GCP environment.
 Automating workflows on resources like BigQuery, Cloud Storage, or Compute Engine.
+
+***GCloud cli command to spawn data proc cluster***
+gcloud dataproc clusters create $DP_CLUSTER_NAME \
+ --region $GCP_REGION \
+ --subnet projects/shared-vpc-admin/regions/$GCP_REGION/subnetworks/$GCP_NETWORK \
+ --enable-component-gateway \
+ --optional-components JUPYTER,ZEPPELIN \
+ --no-address \
+ --zone us-central1-a \
+ --service-account $DP_SERVICE_ACCOUNT \
+ --master-machine-type e2-standard-32\
+ --master-boot-disk-size 1TB \
+ --num-masters 1 \
+ --num-workers 4 \
+ --worker-machine-type e2-standard-32 \
+ --worker-boot-disk-size 1TB \
+ --project $GCP_PROJECT \
+ --image-version=2.1-debian11 \
+ --max-idle 3600s \
+ --scopes 'https://www.googleapis.com/auth/cloud-platform' \
+ --initialization-actions gs://mle-dataproc-artifacts/mle-dataproc-connector.sh \
+ --properties=^#^dataproc:pip.packages='ibis-framework[bigquery]==7.1.0'#dataproc:pip.packages='great-expectations==0.16.8' \
+ --metadata spark-bigquery-connector-version=0.32.2
+
+gcloud dataproc jobs submit pyspark --cluster=markdown --region=us-central1 gs://markdown_pipeline/feature_test/engineer.py 
