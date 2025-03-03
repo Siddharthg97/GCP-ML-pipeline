@@ -1,5 +1,6 @@
 ### Steps to create GCP ML pipeline
 
+
 1) Settings.yml file - contains environment variables , model configuration & data location
 2) ML pipeline scripts - to run these scripts we use kubeflow   
 3) Utils module  - contains function definitions
