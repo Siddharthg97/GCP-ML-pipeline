@@ -276,9 +276,29 @@ class Config:   - latest markdown version, test horizon, run frequency,
 ## Environment variables
 https://www.datacamp.com/tutorial/python-environment-variables 
 
+ These variables are used to store sensitive information related to your development project. Sensitive information can be:
+
+API keys to access others’ applications
+Username and passwords to log in to applications through scripts
+Database credentials
+anything that might cause a security issue if exposed accidentally.
+
 These are key value pairs containing variable name and their path respectively. The path can belong to any executable file like exe file for conda or pip or pyspark or java. Otherwise env varibles can be API keys or login id with passwords to access several applications like cloud applications while running the python scripts.
 Another benefit of environment variables is configurability. You can easily adjust settings (database URLs, file paths) by modifying environment variables without changing your code. This feature is especially helpful if you use the same setting in multiple parts of your project.
 These login id and passwords or API keys are not safe to be stored in github repositories as can be accessed by hackers or any malicious activity
+
+For example, if you write a Python script that openly uses your AWS credentials and accidentally commit that script to GitHub, there is a chance malicious parties discover it and significantly increase your AWS bill (this is known to happen).
+
+Another benefit of environment variables is configurability. You can easily adjust settings (database URLs, file paths) by modifying environment variables without changing your code. This feature is especially helpful if you use the same setting in multiple parts of your project.
+
+So, let’s learn how to work with them in Python.
+
+How To Retrieve Environment Variables in Python’s os Module
+To retrieve existing environment variables in your system, you can use the os module. It has the .getenv function to retrieve variables:
+
+
+import os
+os.getenv("USER")
 
 We can create our own argument parser
 It is basucally a container that contains all the argument we want to pass from commmand line.
