@@ -1,7 +1,9 @@
 ****Airflow***
+https://www.youtube.com/watch?v=YgodScEIbOc&t=823s
 https://medium.com/thefork/a-guide-to-mlops-with-airflow-and-mlflow-e19a82901f88
 https://airflow.apache.org/docs/apache-airflow/stable/index.html
 https://www.youtube.com/watch?v=d4cu_rzv4A8
+
 
 1) It is a common tool for managing data workflows. Built on Apache airflow is open source and needs to be installed on existing
 infrastructure
@@ -23,7 +25,7 @@ in which the composer resides.
 NOTE : We can have several composer environment created within a project in location suppprted by project.
 2) We can provide architechture for composer environment and provide vpc network setting as well.
 3) Once composer environment is created we can see that against this environment we have folders like Dag, airflow webserver
-being created. Now the dag folder stores the gcs bucket in which python script is present containing the script to be executed  
+being created. Now the dag folder stores the gcs bucket in which python script is present containing the dag script to be executed  
 Airflow webserver is the is the UI in which all dags are present irrespective of whether active , paused or failed etc.
 NOTE : We would need to define the operator to build a DAG. These can be bash operator , python operator etc.
 
