@@ -1,3 +1,7 @@
+### GCloud cli commands
+https://cloud.google.com/sdk/docs/cheatsheet
+
+
 ### GCP v/s Azure
 Google Cloud Platform (GCP) generally shines in its advanced data analytics, machine learning capabilities, and strong containerization support, making it ideal for data-driven projects and complex workloads, while Azure excels in seamless integration with Microsoft products, hybrid cloud functionality, and enterprise-grade security, making it a good choice for organizations already heavily invested in the Microsoft ecosystem;. 
 Key benefits of GCP:
