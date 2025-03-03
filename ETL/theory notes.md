@@ -20,14 +20,20 @@ how many times to retry them and if they have timeouts, and so on.
 ***How to create DAGs***
 1) using google cloud composer  - create it's environment which are self contained airflow deployments running on top of Kubernates cluster
 So, in the configurations of google cloud composer, we specify the type whether it's auto scalable or configurable with airflow-1 or -2
-In configuration we need to specify the image version for composer along with airflow type and service account that has access go the project
-in which the composer resides.
+In configuration we need to specify the image version for airflow application running on top of kubernates cluster, for composer along with airflow type and service account that has access go the project
+in which the composer resides. Along with this, we can set up vpc network. We need to setup kubernates or environment resource configuration like workloads, no. of nodes/workers, webserver etc.   
 NOTE : We can have several composer environment created within a project in location suppprted by project.
 2) We can provide architechture for composer environment and provide vpc network setting as well.
 3) Once composer environment is created we can see that against this environment we have folders like Dag, airflow webserver
 being created. Now the dag folder stores the gcs bucket in which python script is present containing the dag script to be executed  
-Airflow webserver is the is the UI in which all dags are present irrespective of whether active , paused or failed etc.
-NOTE : We would need to define the operator to build a DAG. These can be bash operator , python operator etc.
+Airflow webserver is the is the UI in which all dags are present irrespective of whether active , paused or failed etc.We can open/close dag 
+NOTE : We would need to define the operator to build a DAG. These can be bash operator , python operator, data proc operator etc.
+Within dag we have several option like code etc.
+
+Dag loging operations can be observed on cloud logger
+We acn go composer environment created and there click on it. , the we have several table like monitoring, logging, environment configurations like onitoring has health checks , logs to see dag logs.Airflow configuration overrides - for installing all required packages.  
+
+
 
 
 Within composer environment hyper link we have option of PYPI packages where we would need to define the package & version 
