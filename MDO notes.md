@@ -1,6 +1,6 @@
 BASICS
 
-Objective - The objective of MDO is to efficiently manage the inventory collection among Sam's Club such that revenue is recovered the most or recovery rate is highest.
+Objective - The objective of MDO is to predict optmized markdown prices among Sam's Club such that revenue is recovered the most or recovery rate is highest.
 
 Problem Statement -So generally what happens is when inventory get's reduntant on clubs & we are about to reach liquidation date or in case of seasonal that remain unsold after season getting over,
 
