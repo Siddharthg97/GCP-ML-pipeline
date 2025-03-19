@@ -2,9 +2,9 @@ BASICS
 
 Objective - The objective of MDO is to predict optmized markdown prices for redundant items among Sam's Club such that revenue is recovered the most or recovery rate is highest.
 
-Problem Statement -So generally what happens is when inventory get's reduntant on clubs & we are about to reach liquidation date or in case of seasonal that remain unsold after season getting over,
+Problem Statement -So generally what walmartwould purchase ites in bulk from merchants on agreement with fixed cost ,oos_date and liquidation price. So if it was observed that certains items if present in bulk were not sold on clubs and were expected to reach oos_date, they would be returned to merchants at liquidation price, this result in revenue loss for them. Hence
 
-Approach - Markdown are applied where item prices are reduced by certain fraction, to make sure that inventories are efficiently sold well on time before liquidation date. These nmarkdownare applied in scenarios
+Approach - Markdown are applied well on time before arriving to oos_date , where item prices are reduced by certain fraction, to make sure that inventories are efficiently sold well on time. These nmarkdownare applied in scenarios
 
 1) atmost 8 weeks before dilution
 
